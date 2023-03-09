@@ -5,54 +5,12 @@ on:
     push:
       branches:
         - main
-  workflow_call:
-    inputs:
-      analyze_directories:
-        required: false
-        type: string
-        default: "lib test"
-      concurrency:
-        required: false
-        type: number
-        default: 0
-      coverage_excludes:
-        required: false
-        type: string
-        default: ""
-      flutter_channel:
-        required: false
-        type: string
-        default: "stable"
-      flutter_version:
-        required: false
-        type: string
-        default: "3.3.4"
-      min_coverage:
-        required: false
-        type: number
-        default: 0
-      setup:
-        required: false
-        type: string
-        default: "flutter doctor --verbose"
-      test_optimization:
-        required: false
-        type: boolean
-        default: true
-      test_recursion:
-        required: false
-        type: boolean
-        default: false
-      working_directory:
-        required: false
-        type: string
-        default: "."
 
 jobs:
   build:
     defaults:
       run:
-        working-directory: ${{inputs.working_directory}}
+        working-directory: "."
 
     runs-on: ubuntu-latest
 
@@ -63,8 +21,8 @@ jobs:
       - name: 🐦 Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{inputs.flutter_version}}
-          channel: ${{inputs.flutter_channel}}
+          flutter-version: "3.3.4"
+          channel: "stable"
           cache: true
           cache-key: flutter-:os:-:channel:-:version:-:arch:-:hash:-${{ hashFiles('**/pubspec.lock') }}
 
@@ -74,21 +32,20 @@ jobs:
           very_good --analytics false
           very_good packages get --recursive
       - name: ⚙️ Run Setup
-        if: "${{inputs.setup != ''}}"
-        run: ${{inputs.setup}}
+        run: "flutter doctor --verbose"
 
       - name: ✨ Check Formatting
         run: dart format --set-exit-if-changed lib test
 
       - name: 🕵️ Analyze
-        run: flutter analyze ${{inputs.analyze_directories}}
+        run: flutter analyze "lib test"
 
       - name: 🧪 Run Tests
-        run: very_good test -j ${{inputs.concurrency}} ${{(inputs.test_recursion && '--recursive') || ''}} ${{(inputs.test_optimization && '--optimization') || '--no-optimization'}} --coverage --test-randomize-ordering-seed random
+        run: very_good test -j 0 ${{(false && '--recursive') || ''}} ${{(true && '--optimization') || '--no-optimization'}} --coverage --test-randomize-ordering-seed random
 
       - name: 📊 Check Code Coverage
         uses: VeryGoodOpenSource/very_good_coverage@v2
         with:
-          path: ${{inputs.working_directory}}/coverage/lcov.info
-          exclude: ${{inputs.coverage_excludes}}
-          min_coverage: ${{inputs.min_coverage}}
+          path: "."/coverage/lcov.info
+          exclude: ""
+          min_coverage: 0
