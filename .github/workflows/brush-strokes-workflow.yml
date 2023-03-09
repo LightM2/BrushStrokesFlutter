@@ -26,7 +26,7 @@ on:
       flutter_version:
         required: false
         type: string
-        default: ""
+        default: "3.3.4"
       min_coverage:
         required: false
         type: number
@@ -34,7 +34,7 @@ on:
       setup:
         required: false
         type: string
-        default: ""
+        default: "flutter doctor --verbose"
       test_optimization:
         required: false
         type: boolean
@@ -53,6 +53,8 @@ jobs:
     defaults:
       run:
         working-directory: ${{inputs.working_directory}}
+
+    runs-on: ubuntu-latest
 
     steps:
       - name: 📚 Git Checkout
