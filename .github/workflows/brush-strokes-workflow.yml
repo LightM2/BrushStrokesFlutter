@@ -1,4 +1,4 @@
-name: Flutter Package Workflow
+name: BrushStrokes Workflow
 
 on:
   workflow_call:
