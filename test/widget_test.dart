@@ -12,6 +12,6 @@ import 'package:brush_strokes/main.dart';
 
 void main() {
   testWidgets('Simple test', (WidgetTester tester) async {
-    expect(1+1, 2);
+    expect(1 + 1, 2);
   });
 }
