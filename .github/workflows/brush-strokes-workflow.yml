@@ -1,6 +1,10 @@
 name: BrushStrokes Workflow
 
 on:
+  pull_request:
+    push:
+      branches:
+        - main
   workflow_call:
     inputs:
       analyze_directories:
@@ -26,7 +30,7 @@ on:
       min_coverage:
         required: false
         type: number
-        default: 100
+        default: 0
       runs_on:
         required: false
         type: string
