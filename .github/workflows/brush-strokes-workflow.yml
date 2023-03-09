@@ -41,7 +41,7 @@ jobs:
         run: flutter analyze "lib"
 
       - name: 🧪 Run Tests
-        run: very_good test -j 0 ${{(false && '--recursive') || ''}} ${{(true && '--optimization') || '--no-optimization'}} --coverage --test-randomize-ordering-seed random
+        run: very_good test -j 4 ${{(false && '--recursive') || ''}} ${{(true && '--optimization') || '--no-optimization'}} --coverage --test-randomize-ordering-seed random
 
       - name: 📊 Check Code Coverage
         uses: VeryGoodOpenSource/very_good_coverage@v2
