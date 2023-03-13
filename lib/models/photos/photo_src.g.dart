@@ -8,7 +8,7 @@ part of 'photo_src.dart';
 
 PhotoSrc _$PhotoSrcFromJson(Map<String, dynamic> json) => PhotoSrc(
       json['original'] as String,
-      json['large2X'] as String,
+      json['large2x'] as String,
       json['large'] as String,
       json['medium'] as String,
       json['small'] as String,
@@ -19,7 +19,7 @@ PhotoSrc _$PhotoSrcFromJson(Map<String, dynamic> json) => PhotoSrc(
 
 Map<String, dynamic> _$PhotoSrcToJson(PhotoSrc instance) => <String, dynamic>{
       'original': instance.original,
-      'large2X': instance.large2X,
+      'large2x': instance.large2x,
       'large': instance.large,
       'medium': instance.medium,
       'small': instance.small,

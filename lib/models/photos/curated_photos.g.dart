@@ -9,17 +9,19 @@ part of 'curated_photos.dart';
 CuratedPhotos _$CuratedPhotosFromJson(Map<String, dynamic> json) =>
     CuratedPhotos(
       json['page'] as int,
-      json['perPage'] as int,
+      json['per_page'] as int,
       (json['photos'] as List<dynamic>)
           .map((e) => Photo.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json['nextPage'] as String,
+      json['next_page'] as String?,
+      json['prev_page'] as String?,
     );
 
 Map<String, dynamic> _$CuratedPhotosToJson(CuratedPhotos instance) =>
     <String, dynamic>{
       'page': instance.page,
-      'perPage': instance.perPage,
+      'per_page': instance.perPage,
       'photos': instance.photos.map((e) => e.toJson()).toList(),
-      'nextPage': instance.nextPage,
+      'next_page': instance.nextPage,
+      'prev_page': instance.prevPage,
     };

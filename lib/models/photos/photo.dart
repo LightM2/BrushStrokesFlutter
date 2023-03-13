@@ -1,4 +1,4 @@
-import 'package:brush_strokes/models/photo_src.dart';
+import 'package:brush_strokes/models/photos/photo_src.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'photo.g.dart';
@@ -25,8 +25,11 @@ class Photo {
   int height;
   String url;
   String photographer;
+  @JsonKey(name: 'photographer_url')
   String photographerUrl;
+  @JsonKey(name: 'photographer_id')
   int photographerId;
+  @JsonKey(name: 'avg_color')
   String avgColor;
   PhotoSrc src;
   String alt;

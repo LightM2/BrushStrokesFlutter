@@ -6,7 +6,7 @@ part 'photo_src.g.dart';
 class PhotoSrc {
   PhotoSrc(
     this.original,
-    this.large2X,
+    this.large2x,
     this.large,
     this.medium,
     this.small,
@@ -19,7 +19,7 @@ class PhotoSrc {
       _$PhotoSrcFromJson(json);
 
   String original;
-  String large2X;
+  String large2x;
   String large;
   String medium;
   String small;
