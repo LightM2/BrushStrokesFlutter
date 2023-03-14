@@ -117,3 +117,6 @@ app.*.symbols
 #Envied
 *.env
 env.g.dart
+
+#Genereted files
+*.g.dart
