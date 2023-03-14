@@ -13,7 +13,8 @@ class PopularVideos {
     this.videos,
   );
 
-  factory PopularVideos.fromJson(Map<String, dynamic> json) => _$PopularVideosFromJson(json);
+  factory PopularVideos.fromJson(Map<String, dynamic> json) =>
+      _$PopularVideosFromJson(json);
 
   int page;
   @JsonKey(name: 'per_page')

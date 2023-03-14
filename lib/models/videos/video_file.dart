@@ -13,6 +13,9 @@ class VideoFile {
     this.link,
   );
 
+  factory VideoFile.fromJson(Map<String, dynamic> json) =>
+      _$VideoFileFromJson(json);
+
   int id;
   String quality;
   @JsonKey(name: 'file_type')
@@ -20,8 +23,6 @@ class VideoFile {
   int width;
   int height;
   String link;
-
-  factory VideoFile.fromJson(Map<String, dynamic> json) => _$VideoFileFromJson(json);
 
   Map<String, dynamic> toJson() => _$VideoFileToJson(this);
 }

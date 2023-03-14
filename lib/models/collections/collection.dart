@@ -13,7 +13,8 @@ class Collection {
     this.videosCount,
   );
 
-  factory Collection.fromJson(Map<String, dynamic> json) => _$CollectionFromJson(json);
+  factory Collection.fromJson(Map<String, dynamic> json) =>
+      _$CollectionFromJson(json);
 
   String id;
   String title;

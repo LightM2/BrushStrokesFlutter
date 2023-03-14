@@ -1,12 +1,8 @@
 import 'package:brush_strokes/colors.dart';
-import 'package:brush_strokes/data/pexels_client.dart';
 import 'package:brush_strokes/typography.dart';
 import 'package:flutter/material.dart';
 
-void main() async {
-  PexelsClient _pexelsClient = PexelsClient();
-  var _popularVideos = await _pexelsClient.getPopularVideos();
-  print('popularVideos: ${_popularVideos.toJson()}');
+void main() {
   runApp(const MyApp());
 }
 

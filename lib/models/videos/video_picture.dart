@@ -10,7 +10,8 @@ class VideoPicture {
     this.nr,
   );
 
-  factory VideoPicture.fromJson(Map<String, dynamic> json) => _$VideoPictureFromJson(json);
+  factory VideoPicture.fromJson(Map<String, dynamic> json) =>
+      _$VideoPictureFromJson(json);
 
   int id;
   String picture;

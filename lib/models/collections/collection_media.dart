@@ -15,7 +15,8 @@ class CollectionMedia {
     this.prevPage,
   );
 
-  factory CollectionMedia.fromJson(Map<String, dynamic> json) => _$CollectionMediaFromJson(json);
+  factory CollectionMedia.fromJson(Map<String, dynamic> json) =>
+      _$CollectionMediaFromJson(json);
 
   String id;
   List<Media> media;
