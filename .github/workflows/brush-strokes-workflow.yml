@@ -27,10 +27,14 @@ jobs:
           cache-key: flutter-:os:-:channel:-:version:-:arch:-:hash:-${{ hashFiles('**/pubspec.lock') }}
 
       - name: 📦 Install Dependencies
+        env:
+          super_secret: ${{ secrets.SuperSecret }}
         run: |
           flutter pub global activate very_good_cli
           very_good --analytics false
           very_good packages get --recursive
+          flutter pub run build_runner build
+
       - name: ⚙️ Run Setup
         run: "flutter doctor --verbose"
 
