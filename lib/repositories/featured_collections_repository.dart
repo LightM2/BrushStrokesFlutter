@@ -2,7 +2,7 @@ import 'dart:convert' as convert;
 import 'dart:io';
 
 import 'package:brush_strokes/env/env.dart';
-import 'package:brush_strokes/base/const.dart';
+import 'package:brush_strokes/const.dart';
 import 'package:brush_strokes/models/collections/featured_collections.dart';
 import 'package:http/http.dart' as http;
 

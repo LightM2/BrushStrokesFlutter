@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:brush_strokes/blocs/navigation/nav_bar_items.dart';
+import 'package:brush_strokes/features/root/bloc/nav_bar_items.dart';
 import 'package:equatable/equatable.dart';
 
 part 'navigation_state.dart';
