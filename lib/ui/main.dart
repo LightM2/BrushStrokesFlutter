@@ -1,7 +1,7 @@
 import 'package:brush_strokes/blocs/navigation/navigation_cubit.dart';
 import 'package:brush_strokes/ui/theme/colors.dart';
 import 'package:brush_strokes/ui/theme/typography.dart';
-import 'package:brush_strokes/ui/root_screen.dart';
+import 'package:brush_strokes/ui/root/root_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,5 +1,9 @@
-import 'package:brush_strokes/base/nav_bar_items.dart';
+import 'package:brush_strokes/blocs/navigation/nav_bar_items.dart';
 import 'package:brush_strokes/blocs/navigation/navigation_cubit.dart';
+import 'package:brush_strokes/ui/cart/cart_screen.dart';
+import 'package:brush_strokes/ui/home/home_screen.dart';
+import 'package:brush_strokes/ui/notification/notification_screen.dart';
+import 'package:brush_strokes/ui/search/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -46,7 +50,10 @@ class _RootScreenState extends State<RootScreen> {
               ),
               NavigationDestination(
                 selectedIcon: Icon(Icons.notifications),
-                icon: Icon(Icons.notifications_none),
+                icon: Badge(
+                  isLabelVisible: true,
+                  child: Icon(Icons.notifications_none),
+                ),
                 label: 'Notification',
               ),
               NavigationDestination(
@@ -61,25 +68,13 @@ class _RootScreenState extends State<RootScreen> {
       body: BlocBuilder<NavigationCubit, NavigationState>(
         builder: (context, state) {
           if (state.navbarItem == NavbarItem.HOME) {
-            return Container(
-              alignment: Alignment.center,
-              child: Text(state.navbarItem.name),
-            );
+            return HomeScreen();
           } else if (state.navbarItem == NavbarItem.SEARCH) {
-            return Container(
-              alignment: Alignment.center,
-              child: Text(state.navbarItem.name),
-            );
+            return SearchScreen();
           } else if (state.navbarItem == NavbarItem.NOTIFICATION) {
-            return Container(
-              alignment: Alignment.center,
-              child: Text(state.navbarItem.name),
-            );
+            return NotificationScreen();
           } else if (state.navbarItem == NavbarItem.CART) {
-            return Container(
-              alignment: Alignment.center,
-              child: Text(state.navbarItem.name),
-            );
+            return CartScreen();
           }
           return Container();
         },

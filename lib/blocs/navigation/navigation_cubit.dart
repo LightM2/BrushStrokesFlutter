@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:brush_strokes/base/nav_bar_items.dart';
+import 'package:brush_strokes/blocs/navigation/nav_bar_items.dart';
 import 'package:equatable/equatable.dart';
 
 part 'navigation_state.dart';
@@ -13,7 +13,8 @@ class NavigationCubit extends Cubit<NavigationState> {
         emit(NavigationState(NavbarItem.HOME, 0));
         break;
       case NavbarItem.SEARCH:
-        emit(NavigationState(NavbarItem.SEARCH, 1));
+        emit(NavigationState(NavbarItem.SEARCH, 1,
+            isNotificationBadgeVisible: false));
         break;
       case NavbarItem.NOTIFICATION:
         emit(NavigationState(NavbarItem.NOTIFICATION, 2));
