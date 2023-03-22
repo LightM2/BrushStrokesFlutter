@@ -4,6 +4,7 @@ import 'package:brush_strokes/repositories/curated_photos_repository.dart';
 import 'package:brush_strokes/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HotBidsWidget extends StatelessWidget {
   const HotBidsWidget({super.key});
@@ -27,8 +28,10 @@ class HotBidsWidget extends StatelessWidget {
       child: BlocBuilder<HotBidsBloc, HotBidsState>(
         builder: (context, state) {
           if (state is HotBidsLoadingState) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return _hotBidsShimmer(
+              Theme.of(context).textTheme,
+              Theme.of(context).colorScheme,
+              () {},
             );
           }
           if (state is HotBidsErrorState) {
@@ -44,7 +47,7 @@ class HotBidsWidget extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.only(left: 16),
-                  child: hotBidsHeader(
+                  child: _hotBidsHeader(
                     Theme.of(context).textTheme,
                     Theme.of(context).colorScheme,
                     () {},
@@ -59,7 +62,7 @@ class HotBidsWidget extends StatelessWidget {
                     itemCount: curatedPhotos.length,
                     separatorBuilder: (context, _) => SizedBox(width: 8),
                     itemBuilder: (context, index) {
-                      return hotBidsItem(
+                      return _hotBidsItem(
                         curatedPhotos[index],
                         Theme.of(context).textTheme,
                         Theme.of(context).colorScheme,
@@ -76,7 +79,7 @@ class HotBidsWidget extends StatelessWidget {
     );
   }
 
-  Widget hotBidsItem(
+  Widget _hotBidsItem(
     Photo photo,
     TextTheme textTheme,
     ColorScheme colorScheme,
@@ -89,7 +92,7 @@ class HotBidsWidget extends StatelessWidget {
           SizedBox(
             height: 200,
             child: Stack(
-              children: < Widget> [
+              children: <Widget>[
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: SizedBox.fromSize(
@@ -97,7 +100,6 @@ class HotBidsWidget extends StatelessWidget {
                     child: Image.network(photo.src.medium, fit: BoxFit.cover),
                   ),
                 ),
-
                 Container(
                   margin: const EdgeInsets.all(16),
                   alignment: Alignment.bottomLeft,
@@ -107,11 +109,12 @@ class HotBidsWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4, horizontal: 8),
                       child: Text(
                         photo.avgColor,
-                        style: textTheme.labelMedium
-                            ?.copyWith(color: goldColor),
+                        style:
+                            textTheme.labelMedium?.copyWith(color: goldColor),
                       ),
                     ),
                   ),
@@ -138,7 +141,7 @@ class HotBidsWidget extends StatelessWidget {
     );
   }
 
-  Widget hotBidsHeader(
+  Widget _hotBidsHeader(
       TextTheme textTheme, ColorScheme colorScheme, VoidCallback openHotBids) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -154,6 +157,75 @@ class HotBidsWidget extends StatelessWidget {
           icon: Icon(
             Icons.arrow_forward_ios,
             color: colorScheme.onSurfaceVariant,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _hotBidsShimmer(
+    TextTheme textTheme,
+    ColorScheme colorScheme,
+    VoidCallback openHotBids,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(left: 16),
+          child: _hotBidsHeader(
+            textTheme,
+            colorScheme,
+            openHotBids,
+          ),
+        ),
+        SizedBox(
+          height: 260,
+          child: Shimmer.fromColors(
+            baseColor: colorScheme.surfaceVariant,
+            highlightColor: colorScheme.onSurfaceVariant,
+            child: ListView.separated(
+                padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: 3,
+                separatorBuilder: (context, _) => SizedBox(width: 8),
+                itemBuilder: (context, index) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 200,
+                        width: 200,
+                        decoration: BoxDecoration(
+                          color: colorScheme.surfaceVariant,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Container(
+                        width: 100,
+                        height: 24,
+                        decoration: BoxDecoration(
+                          color: colorScheme.surfaceVariant,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Container(
+                        width: 50,
+                        height: 12,
+                        decoration: BoxDecoration(
+                          color: colorScheme.surfaceVariant,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ],
+                  );
+                }),
           ),
         ),
       ],

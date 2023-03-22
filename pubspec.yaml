@@ -22,6 +22,7 @@ dependencies:
   internet_connection_checker: ^1.0.0+1
   intl: ^0.18.0
   json_annotation: ^4.8.0
+  shimmer: ^2.0.0
   shrine_images: ^2.0.2
 
 
