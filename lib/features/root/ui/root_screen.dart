@@ -1,7 +1,7 @@
 import 'package:brush_strokes/features/root/bloc/nav_bar_items.dart';
 import 'package:brush_strokes/features/root/bloc/navigation_cubit.dart';
 import 'package:brush_strokes/features/cart/ui/cart_screen.dart';
-import 'package:brush_strokes/features/home/ui/home_screen.dart';
+import 'package:brush_strokes/features/home/home_screen.dart';
 import 'package:brush_strokes/features/notification/ui/notification_screen.dart';
 import 'package:brush_strokes/features/search/ui/search_screen.dart';
 import 'package:flutter/material.dart';

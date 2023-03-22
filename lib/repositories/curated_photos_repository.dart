@@ -22,9 +22,7 @@ class CuratedPhotosRepository {
 
       return CuratedPhotos.fromJson(jsonResponse);
     } else {
-      throw Exception(
-        'Failed to load curated photos ${convert.jsonDecode(response.body)}',
-      );
+      throw Exception(response.reasonPhrase);
     }
   }
 }
