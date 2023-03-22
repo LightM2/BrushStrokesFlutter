@@ -54,13 +54,13 @@ class HotBidsWidget extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  height: 260,
+                  height: 220,
                   child: ListView.separated(
                     padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     itemCount: curatedPhotos.length,
-                    separatorBuilder: (context, _) => SizedBox(width: 8),
+                    separatorBuilder: (context, _) => SizedBox(width: 16),
                     itemBuilder: (context, index) {
                       return _hotBidsItem(
                         curatedPhotos[index],
@@ -87,53 +87,22 @@ class HotBidsWidget extends StatelessWidget {
     VoidCallback openPhoto,
   ) {
     return Container(
-      width: 200,
+      width: 160,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 200,
-            child: Stack(
-              children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Material(
-                    child: Ink.image(
-                      image: NetworkImage(photo.src.medium),
-                      height: 200,
-                      width: 200,
-                      fit: BoxFit.cover,
-                      child: InkWell(
-                        onTap: openPhoto,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(16),
-                  alignment: Alignment.bottomLeft,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: colorScheme.background.withOpacity(0.6),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 4, horizontal: 8),
-                      child: Text(
-                        photo.avgColor,
-                        style:
-                            textTheme.labelMedium?.copyWith(color: goldColor),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          _hotBidPhoto(
+            photo,
+            textTheme,
+            colorScheme,
+            openPhoto,
           ),
           Spacer(flex: 8),
           Text(
             photo.photographer,
+            softWrap: true,
+            maxLines: 1,
+            overflow: TextOverflow.clip,
             style: textTheme.titleLarge,
           ),
           Spacer(flex: 4),
@@ -144,6 +113,52 @@ class HotBidsWidget extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: textTheme.bodyMedium
                 ?.copyWith(color: colorScheme.onSurfaceVariant),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _hotBidPhoto(
+    Photo photo,
+    TextTheme textTheme,
+    ColorScheme colorScheme,
+    VoidCallback openPhoto,
+  ) {
+    return SizedBox(
+      height: 160,
+      child: Stack(
+        children: <Widget>[
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Material(
+              child: Ink.image(
+                image: NetworkImage(photo.src.medium),
+                height: 160,
+                width: 160,
+                fit: BoxFit.cover,
+                child: InkWell(
+                  onTap: openPhoto,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(16),
+            alignment: Alignment.bottomLeft,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: colorScheme.background.withOpacity(0.6),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                child: Text(
+                  photo.avgColor,
+                  style: textTheme.labelMedium?.copyWith(color: goldColor),
+                ),
+              ),
+            ),
           ),
         ],
       ),
@@ -194,7 +209,7 @@ class HotBidsWidget extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 260,
+          height: 220,
           child: Shimmer.fromColors(
             baseColor: colorScheme.surfaceVariant,
             highlightColor: colorScheme.onSurfaceVariant,
@@ -204,14 +219,14 @@ class HotBidsWidget extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: 3,
-                separatorBuilder: (context, _) => SizedBox(width: 8),
+                separatorBuilder: (context, _) => SizedBox(width: 16),
                 itemBuilder: (context, index) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: 200,
-                        width: 200,
+                        height: 160,
+                        width: 160,
                         decoration: BoxDecoration(
                           color: colorScheme.surfaceVariant,
                           borderRadius: BorderRadius.circular(20),
@@ -219,7 +234,7 @@ class HotBidsWidget extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Container(
-                        width: 100,
+                        width: 150,
                         height: 24,
                         decoration: BoxDecoration(
                           color: colorScheme.surfaceVariant,
@@ -228,7 +243,7 @@ class HotBidsWidget extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Container(
-                        width: 50,
+                        width: 100,
                         height: 12,
                         decoration: BoxDecoration(
                           color: colorScheme.surfaceVariant,
