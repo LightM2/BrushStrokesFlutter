@@ -10,7 +10,19 @@ class HomeScreen extends StatelessWidget {
     return Container(
       padding: EdgeInsets.only(top: mediaQueryData.viewPadding.top),
       alignment: Alignment.topLeft,
-      child: const HotBidsWidget(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            child: Text(
+              'Home',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+          ),
+          HotBidsWidget(),
+        ],
+      ),
     );
   }
 }

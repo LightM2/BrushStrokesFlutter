@@ -50,7 +50,7 @@ class HotBidsWidget extends StatelessWidget {
                   child: _hotBidsHeader(
                     Theme.of(context).textTheme,
                     Theme.of(context).colorScheme,
-                    () {},
+                    () {}, //todo open hot bids
                   ),
                 ),
                 Container(
@@ -66,6 +66,7 @@ class HotBidsWidget extends StatelessWidget {
                         curatedPhotos[index],
                         Theme.of(context).textTheme,
                         Theme.of(context).colorScheme,
+                        () {}, // todo open photo
                       );
                     },
                   ),
@@ -83,6 +84,7 @@ class HotBidsWidget extends StatelessWidget {
     Photo photo,
     TextTheme textTheme,
     ColorScheme colorScheme,
+    VoidCallback openPhoto,
   ) {
     return Container(
       width: 200,
@@ -95,9 +97,16 @@ class HotBidsWidget extends StatelessWidget {
               children: <Widget>[
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: SizedBox.fromSize(
-                    size: Size.fromRadius(100),
-                    child: Image.network(photo.src.medium, fit: BoxFit.cover),
+                  child: Material(
+                    child: Ink.image(
+                      image: NetworkImage(photo.src.medium),
+                      height: 200,
+                      width: 200,
+                      fit: BoxFit.cover,
+                      child: InkWell(
+                        onTap: openPhoto,
+                      ),
+                    ),
                   ),
                 ),
                 Container(
@@ -142,7 +151,10 @@ class HotBidsWidget extends StatelessWidget {
   }
 
   Widget _hotBidsHeader(
-      TextTheme textTheme, ColorScheme colorScheme, VoidCallback openHotBids) {
+    TextTheme textTheme,
+    ColorScheme colorScheme,
+    VoidCallback openHotBids,
+  ) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
