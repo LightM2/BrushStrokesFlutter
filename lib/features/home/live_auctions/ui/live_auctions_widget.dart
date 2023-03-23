@@ -1,21 +1,20 @@
-import 'package:brush_strokes/features/home/hot_bids/bloc/hot_bids_bloc.dart';
-import 'package:brush_strokes/models/photos/photo.dart';
-import 'package:brush_strokes/repositories/curated_photos_repository.dart';
-import 'package:brush_strokes/theme/colors.dart';
+import 'package:brush_strokes/features/home/live_auctions/bloc/live_auctions_bloc.dart';
+import 'package:brush_strokes/models/videos/video.dart';
+import 'package:brush_strokes/repositories/popular_videos_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
-class HotBidsWidget extends StatelessWidget {
-  const HotBidsWidget({super.key});
+class LiveAuctionsWidget extends StatelessWidget {
+  const LiveAuctionsWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<HotBidsBloc>(
+        BlocProvider<LiveAuctionsBloc>(
             create: (BuildContext context) =>
-                HotBidsBloc(CuratedPhotosRepository())),
+                LiveAuctionsBloc(PopularVideosRepository())),
       ],
       child: _blocBody(),
     );
@@ -23,22 +22,22 @@ class HotBidsWidget extends StatelessWidget {
 
   Widget _blocBody() {
     return BlocProvider(
-      create: (context) =>
-          HotBidsBloc(CuratedPhotosRepository())..add(CuratedPhotosLoaded()),
-      child: BlocBuilder<HotBidsBloc, HotBidsState>(
+      create: (context) => LiveAuctionsBloc(PopularVideosRepository())
+        ..add(PopularVideosLoaded()),
+      child: BlocBuilder<LiveAuctionsBloc, LiveAuctionsState>(
         builder: (context, state) {
-          if (state is HotBidsLoadingState) {
-            return _hotBidsShimmer(
+          if (state is LiveAuctionsLoadingState) {
+            return _liveAuctionsShimmer(
               Theme.of(context).textTheme,
               Theme.of(context).colorScheme,
-              () {},
+                  () {},
             );
           }
-          if (state is HotBidsErrorState) {
+          if (state is LiveAuctionsErrorState) {
             return const Center(child: Text("Error"));
           }
-          if (state is HotBidsSuccessState) {
-            List<Photo> curatedPhotos = state.curatedPhotos.photos;
+          if (state is LiveAuctionsSuccessState) {
+            List<Video> popularVideos = state.popularVideos.videos;
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,26 +46,26 @@ class HotBidsWidget extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.only(left: 16),
-                  child: _hotBidsHeader(
+                  child: _liveAuctionsHeader(
                     Theme.of(context).textTheme,
                     Theme.of(context).colorScheme,
-                    () {}, //todo open hot bids
+                    () {}, //todo open live auctions
                   ),
                 ),
                 Container(
-                  height: 220,
+                  height: 200,
                   child: ListView.separated(
                     padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
-                    itemCount: curatedPhotos.length,
+                    itemCount: popularVideos.length,
                     separatorBuilder: (context, _) => SizedBox(width: 16),
                     itemBuilder: (context, index) {
-                      return _hotBidsItem(
-                        curatedPhotos[index],
+                      return _liveAuctionsItem(
+                        popularVideos[index],
                         Theme.of(context).textTheme,
                         Theme.of(context).colorScheme,
-                        () {}, // todo open photo
+                        () {}, // todo open auction
                       );
                     },
                   ),
@@ -80,65 +79,26 @@ class HotBidsWidget extends StatelessWidget {
     );
   }
 
-  Widget _hotBidsItem(
-    Photo photo,
+  Widget _liveAuctionsItem(
+    Video auction,
     TextTheme textTheme,
     ColorScheme colorScheme,
-    VoidCallback openPhoto,
-  ) {
-    return Container(
-      width: 160,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _hotBidPhoto(
-            photo,
-            textTheme,
-            colorScheme,
-            openPhoto,
-          ),
-          Spacer(flex: 8),
-          Text(
-            photo.photographer,
-            softWrap: true,
-            maxLines: 1,
-            overflow: TextOverflow.clip,
-            style: textTheme.titleLarge,
-          ),
-          Spacer(flex: 4),
-          Text(
-            photo.alt,
-            softWrap: true,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: textTheme.bodyMedium
-                ?.copyWith(color: colorScheme.onSurfaceVariant),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _hotBidPhoto(
-    Photo photo,
-    TextTheme textTheme,
-    ColorScheme colorScheme,
-    VoidCallback openPhoto,
+    VoidCallback openAuction,
   ) {
     return SizedBox(
-      height: 160,
+      height: 200,
       child: Stack(
         children: <Widget>[
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Material(
               child: Ink.image(
-                image: NetworkImage(photo.src.medium),
-                height: 160,
-                width: 160,
+                image: NetworkImage(auction.image), // todo video preview
+                height: 200,
+                width: 300,
                 fit: BoxFit.cover,
                 child: InkWell(
-                  onTap: openPhoto,
+                  onTap: openAuction,
                 ),
               ),
             ),
@@ -153,9 +113,20 @@ class HotBidsWidget extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                child: Text(
-                  photo.avgColor,
-                  style: textTheme.labelMedium?.copyWith(color: goldColor),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.timer_outlined,
+                      color: colorScheme.onBackground,
+                      size: 16,
+                    ),
+                    SizedBox(width: 4),
+                    Text(
+                      '19:12:24 left', // todo timer
+                      style: textTheme.labelMedium,
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -165,10 +136,10 @@ class HotBidsWidget extends StatelessWidget {
     );
   }
 
-  Widget _hotBidsHeader(
+  Widget _liveAuctionsHeader(
     TextTheme textTheme,
     ColorScheme colorScheme,
-    VoidCallback openHotBids,
+    VoidCallback openLiveAuctions,
   ) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -176,11 +147,11 @@ class HotBidsWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: [
         Text(
-          'Hot bids 🔥',
+          'Live auctions 🔴',
           style: textTheme.headlineSmall,
         ),
         IconButton(
-          onPressed: openHotBids,
+          onPressed: openLiveAuctions,
           icon: Icon(
             Icons.arrow_forward_ios,
             color: colorScheme.onSurfaceVariant,
@@ -190,10 +161,10 @@ class HotBidsWidget extends StatelessWidget {
     );
   }
 
-  Widget _hotBidsShimmer(
+  Widget _liveAuctionsShimmer(
     TextTheme textTheme,
     ColorScheme colorScheme,
-    VoidCallback openHotBids,
+    VoidCallback openLiveAuctions,
   ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -202,14 +173,14 @@ class HotBidsWidget extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(left: 16),
-          child: _hotBidsHeader(
+          child: _liveAuctionsHeader(
             textTheme,
             colorScheme,
-            openHotBids,
+            openLiveAuctions,
           ),
         ),
         SizedBox(
-          height: 220,
+          height: 200,
           child: Shimmer.fromColors(
             baseColor: colorScheme.surfaceVariant,
             highlightColor: colorScheme.onSurfaceVariant,
@@ -218,41 +189,19 @@ class HotBidsWidget extends StatelessWidget {
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: 3,
+                itemCount: 2,
                 separatorBuilder: (context, _) => SizedBox(width: 16),
                 itemBuilder: (context, index) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 160,
-                        width: 160,
-                        decoration: BoxDecoration(
-                          color: colorScheme.surfaceVariant,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Container(
-                        width: 150,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          color: colorScheme.surfaceVariant,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Container(
-                        width: 100,
-                        height: 12,
-                        decoration: BoxDecoration(
-                          color: colorScheme.surfaceVariant,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ],
+                  return Container(
+                    height: 200,
+                    width: 300,
+                    decoration: BoxDecoration(
+                      color: colorScheme.surfaceVariant,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                   );
-                }),
+                },
+            ),
           ),
         ),
       ],

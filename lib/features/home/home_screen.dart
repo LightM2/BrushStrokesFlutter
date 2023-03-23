@@ -1,5 +1,6 @@
 import 'package:brush_strokes/features/home/best_collections/ui/best_collections_widget.dart';
 import 'package:brush_strokes/features/home/hot_bids/ui/hot_bids_widget.dart';
+import 'package:brush_strokes/features/home/live_auctions/ui/live_auctions_widget.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -11,8 +12,8 @@ class HomeScreen extends StatelessWidget {
     return Container(
       padding: EdgeInsets.only(top: mediaQueryData.viewPadding.top),
       alignment: Alignment.topLeft,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: ListView(
+        scrollDirection: Axis.vertical,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -24,6 +25,9 @@ class HomeScreen extends StatelessWidget {
           HotBidsWidget(),
           SizedBox(height: 16),
           BestCollectionWidget(),
+          SizedBox(height: 16),
+          LiveAuctionsWidget(),
+          SizedBox(height: 16),
         ],
       ),
     );
