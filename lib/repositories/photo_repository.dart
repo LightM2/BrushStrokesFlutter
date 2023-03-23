@@ -22,9 +22,7 @@ class PhotoRepository {
 
       return Photo.fromJson(jsonResponse);
     } else {
-      throw Exception(
-        'Failed to load photo ${convert.jsonDecode(response.body)}',
-      );
+      throw Exception(response.reasonPhrase);
     }
   }
 }

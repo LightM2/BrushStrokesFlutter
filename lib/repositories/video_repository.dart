@@ -22,9 +22,7 @@ class VideoRepository {
 
       return Video.fromJson(jsonResponse);
     } else {
-      throw Exception(
-        'Failed to load video ${convert.jsonDecode(response.body)}',
-      );
+      throw Exception(response.reasonPhrase);
     }
   }
 }

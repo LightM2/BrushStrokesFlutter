@@ -23,9 +23,7 @@ class FeaturedCollectionsRepository {
 
       return FeaturedCollections.fromJson(jsonResponse);
     } else {
-      throw Exception(
-        'Failed to load featured collections ${convert.jsonDecode(response.body)}',
-      );
+      throw Exception(response.reasonPhrase);
     }
   }
 }

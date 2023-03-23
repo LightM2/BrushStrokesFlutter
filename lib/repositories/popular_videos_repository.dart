@@ -22,9 +22,7 @@ class PopularVideosRepository {
 
       return PopularVideos.fromJson(jsonResponse);
     } else {
-      throw Exception(
-        'Failed to load popular videos ${convert.jsonDecode(response.body)}',
-      );
+      throw Exception(response.reasonPhrase);
     }
   }
 }

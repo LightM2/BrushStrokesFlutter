@@ -22,9 +22,7 @@ class CollectionMediaRepository {
 
       return CollectionMedia.fromJson(jsonResponse);
     } else {
-      throw Exception(
-        'Failed to load collection media ${convert.jsonDecode(response.body)}',
-      );
+      throw Exception(response.reasonPhrase);
     }
   }
 }
