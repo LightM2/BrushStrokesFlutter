@@ -235,7 +235,7 @@ class HotBidsWidget extends StatelessWidget {
                       const SizedBox(height: 8),
                       Container(
                         width: 150,
-                        height: 24,
+                        height: 20,
                         decoration: BoxDecoration(
                           color: colorScheme.surfaceVariant,
                           borderRadius: BorderRadius.circular(8),

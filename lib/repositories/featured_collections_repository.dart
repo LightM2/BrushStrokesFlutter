@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 class FeaturedCollectionsRepository {
   Future<FeaturedCollections> getFeaturedCollections() async {
     const featuredCollectionsEndpoint =
-        '$BASE_URL/collections/featured?per_page=5';
+        '$BASE_URL/collections/featured?per_page=10';
     final response = await http.get(
       Uri.parse(featuredCollectionsEndpoint),
       headers: {

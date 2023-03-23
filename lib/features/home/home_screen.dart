@@ -1,3 +1,4 @@
+import 'package:brush_strokes/features/home/best_collections/ui/best_collections_widget.dart';
 import 'package:brush_strokes/features/home/hot_bids/ui/hot_bids_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +22,8 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           HotBidsWidget(),
+          SizedBox(height: 16),
+          BestCollectionWidget(),
         ],
       ),
     );

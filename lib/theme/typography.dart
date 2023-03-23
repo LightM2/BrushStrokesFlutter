@@ -7,7 +7,7 @@ final textTheme = TextTheme(
   displayMedium: GoogleFonts.notoSansLao(
       fontSize: 60, fontWeight: FontWeight.w300, letterSpacing: -0.5),
   displaySmall:
-      GoogleFonts.notoSansLao(fontSize: 48, fontWeight: FontWeight.w400),
+      GoogleFonts.notoSansLao(fontSize: 48, fontWeight: FontWeight.w600),
   headlineLarge: GoogleFonts.notoSansLao(
       fontSize: 44, fontWeight: FontWeight.w400, letterSpacing: 0.25),
   headlineMedium: GoogleFonts.notoSansLao(
