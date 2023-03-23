@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 
 class PopularVideosRepository {
   Future<PopularVideos> getPopularVideos() async {
-    const popularVideosEndpoint = '$VIDEO_BASE_URL/popular?per_page=3';
+    const popularVideosEndpoint = '$VIDEO_BASE_URL/popular?per_page=5';
     final response = await http.get(
       Uri.parse(popularVideosEndpoint),
       headers: {
