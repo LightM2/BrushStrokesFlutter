@@ -1,4 +1,6 @@
-import 'package:brush_strokes/features/home/live_auctions/bloc/live_auctions_bloc.dart';
+import 'package:brush_strokes/features/home/auction_screen/auction_screen.dart';
+import 'package:brush_strokes/features/home/home_screen/live_auctions/bloc/live_auctions_bloc.dart';
+import 'package:brush_strokes/features/home/live_auctions_screen/live_auctions_screen.dart';
 import 'package:brush_strokes/models/videos/video.dart';
 import 'package:brush_strokes/repositories/popular_videos_repository.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +32,9 @@ class LiveAuctionsWidget extends StatelessWidget {
             return _liveAuctionsShimmer(
               Theme.of(context).textTheme,
               Theme.of(context).colorScheme,
-                  () {},
+              () {
+                Navigator.pushNamed(context, LiveAuctionsScreen.routeName);
+              },
             );
           }
           if (state is LiveAuctionsErrorState) {
@@ -49,7 +53,12 @@ class LiveAuctionsWidget extends StatelessWidget {
                   child: _liveAuctionsHeader(
                     Theme.of(context).textTheme,
                     Theme.of(context).colorScheme,
-                    () {}, //todo open live auctions
+                    () {
+                      Navigator.pushNamed(
+                        context,
+                        LiveAuctionsScreen.routeName,
+                      );
+                    },
                   ),
                 ),
                 Container(
@@ -65,7 +74,9 @@ class LiveAuctionsWidget extends StatelessWidget {
                         popularVideos[index],
                         Theme.of(context).textTheme,
                         Theme.of(context).colorScheme,
-                        () {}, // todo open auction
+                        () {
+                          Navigator.pushNamed(context, AuctionScreen.routeName);
+                        },
                       );
                     },
                   ),
@@ -93,7 +104,8 @@ class LiveAuctionsWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             child: Material(
               child: Ink.image(
-                image: NetworkImage(auction.image), // todo video preview
+                image: NetworkImage(auction.image),
+                // todo video preview
                 height: 200,
                 width: 300,
                 fit: BoxFit.cover,
@@ -185,22 +197,22 @@ class LiveAuctionsWidget extends StatelessWidget {
             baseColor: colorScheme.surfaceVariant,
             highlightColor: colorScheme.onSurfaceVariant,
             child: ListView.separated(
-                padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: 2,
-                separatorBuilder: (context, _) => SizedBox(width: 16),
-                itemBuilder: (context, index) {
-                  return Container(
-                    height: 200,
-                    width: 300,
-                    decoration: BoxDecoration(
-                      color: colorScheme.surfaceVariant,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  );
-                },
+              padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: 2,
+              separatorBuilder: (context, _) => SizedBox(width: 16),
+              itemBuilder: (context, index) {
+                return Container(
+                  height: 200,
+                  width: 300,
+                  decoration: BoxDecoration(
+                    color: colorScheme.surfaceVariant,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                );
+              },
             ),
           ),
         ),

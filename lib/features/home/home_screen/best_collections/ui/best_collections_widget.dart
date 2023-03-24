@@ -1,4 +1,6 @@
-import 'package:brush_strokes/features/home/best_collections/bloc/best_collections_bloc.dart';
+import 'package:brush_strokes/features/home/best_collections_screen/best_collections_screen.dart';
+import 'package:brush_strokes/features/home/collection_screen/collection_screen.dart';
+import 'package:brush_strokes/features/home/home_screen/best_collections/bloc/best_collections_bloc.dart';
 import 'package:brush_strokes/models/collections/collection.dart';
 import 'package:brush_strokes/repositories/featured_collections_repository.dart';
 import 'package:brush_strokes/theme/colors.dart';
@@ -32,7 +34,9 @@ class BestCollectionWidget extends StatelessWidget {
           return _bestCollectionsShimmer(
             Theme.of(context).textTheme,
             Theme.of(context).colorScheme,
-            () {}, //todo open best collections
+            () {
+              Navigator.pushNamed(context, BestCollectionsScreen.routeName);
+            },
           );
         }
         if (state is BestCollectionsErrorState) {
@@ -51,7 +55,12 @@ class BestCollectionWidget extends StatelessWidget {
                 child: _bestCollectionsHeader(
                   Theme.of(context).textTheme,
                   Theme.of(context).colorScheme,
-                  () {}, //todo open best collections
+                  () {
+                    Navigator.pushNamed(
+                      context,
+                      BestCollectionsScreen.routeName,
+                    );
+                  },
                 ),
               ),
               Container(
@@ -67,7 +76,10 @@ class BestCollectionWidget extends StatelessWidget {
                       featuredCollections[index],
                       Theme.of(context).textTheme,
                       Theme.of(context).colorScheme,
-                      () {}, // todo open collection
+                      () {
+                        Navigator.pushNamed(
+                            context, CollectionScreen.routeName);
+                      },
                     );
                   },
                 ),

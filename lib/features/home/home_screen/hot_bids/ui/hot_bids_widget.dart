@@ -1,4 +1,5 @@
-import 'package:brush_strokes/features/home/hot_bids/bloc/hot_bids_bloc.dart';
+import 'package:brush_strokes/features/home/home_screen/hot_bids/bloc/hot_bids_bloc.dart';
+import 'package:brush_strokes/features/home/hot_bids_screen/hot_bids_screen.dart';
 import 'package:brush_strokes/models/photos/photo.dart';
 import 'package:brush_strokes/repositories/curated_photos_repository.dart';
 import 'package:brush_strokes/theme/colors.dart';
@@ -31,7 +32,9 @@ class HotBidsWidget extends StatelessWidget {
             return _hotBidsShimmer(
               Theme.of(context).textTheme,
               Theme.of(context).colorScheme,
-              () {},
+              () {
+                Navigator.pushNamed(context, HotBidsScreen.routeName);
+              },
             );
           }
           if (state is HotBidsErrorState) {
@@ -50,7 +53,9 @@ class HotBidsWidget extends StatelessWidget {
                   child: _hotBidsHeader(
                     Theme.of(context).textTheme,
                     Theme.of(context).colorScheme,
-                    () {}, //todo open hot bids
+                    () {
+                      Navigator.pushNamed(context, HotBidsScreen.routeName);
+                    },
                   ),
                 ),
                 Container(
@@ -66,7 +71,7 @@ class HotBidsWidget extends StatelessWidget {
                         curatedPhotos[index],
                         Theme.of(context).textTheme,
                         Theme.of(context).colorScheme,
-                        () {}, // todo open photo
+                        () {}, // todo open photo bottom sheets
                       );
                     },
                   ),

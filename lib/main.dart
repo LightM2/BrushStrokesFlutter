@@ -18,7 +18,8 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       create: (context) => NavigationCubit(),
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Brush strokes',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: lightColorScheme,

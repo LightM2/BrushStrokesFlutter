@@ -1,7 +1,7 @@
+import 'package:brush_strokes/features/home/home_route.dart';
 import 'package:brush_strokes/features/root/bloc/nav_bar_items.dart';
 import 'package:brush_strokes/features/root/bloc/navigation_cubit.dart';
 import 'package:brush_strokes/features/cart/ui/cart_screen.dart';
-import 'package:brush_strokes/features/home/home_screen.dart';
 import 'package:brush_strokes/features/notification/ui/notification_screen.dart';
 import 'package:brush_strokes/features/search/ui/search_screen.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +68,7 @@ class _RootScreenState extends State<RootScreen> {
       body: BlocBuilder<NavigationCubit, NavigationState>(
         builder: (context, state) {
           if (state.navbarItem == NavbarItem.HOME) {
-            return HomeScreen();
+            return HomeRoute();
           } else if (state.navbarItem == NavbarItem.SEARCH) {
             return SearchScreen();
           } else if (state.navbarItem == NavbarItem.NOTIFICATION) {

@@ -1,10 +1,12 @@
-import 'package:brush_strokes/features/home/best_collections/ui/best_collections_widget.dart';
-import 'package:brush_strokes/features/home/hot_bids/ui/hot_bids_widget.dart';
-import 'package:brush_strokes/features/home/live_auctions/ui/live_auctions_widget.dart';
+import 'package:brush_strokes/features/home/home_screen/best_collections/ui/best_collections_widget.dart';
+import 'package:brush_strokes/features/home/home_screen/hot_bids/ui/hot_bids_widget.dart';
+import 'package:brush_strokes/features/home/home_screen/live_auctions/ui/live_auctions_widget.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+
+  static const routeName = '/';
 
   @override
   Widget build(BuildContext context) {
