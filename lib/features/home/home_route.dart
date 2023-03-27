@@ -4,6 +4,7 @@ import 'package:brush_strokes/features/home/collection_screen/collection_screen.
 import 'package:brush_strokes/features/home/home_screen/home_screen.dart';
 import 'package:brush_strokes/features/home/hot_bids_screen/hot_bids_screen.dart';
 import 'package:brush_strokes/features/home/live_auctions_screen/live_auctions_screen.dart';
+import 'package:brush_strokes/features/root/ui/navigator_keys.dart';
 import 'package:flutter/material.dart';
 
 class HomeRoute extends StatelessWidget {
@@ -12,6 +13,7 @@ class HomeRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Navigator(
+      key: NavigatorKeys.bottomNavigationBarHomeItem,
       initialRoute: HomeScreen.routeName,
       onPopPage: (route, setting) => route.didPop(setting),
       onGenerateRoute: (RouteSettings settings) {
