@@ -7,8 +7,8 @@ import 'package:brush_strokes/models/photos/curated_photos.dart';
 import 'package:http/http.dart' as http;
 
 class CuratedPhotosRepository {
-  Future<CuratedPhotos> getCuratedPhotos() async {
-    const curatedPhotosEndpoint = '$BASE_URL/curated?per_page=10';
+  Future<CuratedPhotos> getCuratedPhotos(int perPage) async {
+    String curatedPhotosEndpoint = '$BASE_URL/curated?per_page=$perPage';
     final response = await http.get(
       Uri.parse(curatedPhotosEndpoint),
       headers: {

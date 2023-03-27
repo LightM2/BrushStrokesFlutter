@@ -16,7 +16,8 @@ class HotBidsBloc extends Bloc<HotBidsEvent, HotBidsState> {
       emit(HotBidsLoadingState());
 
       try {
-        final curatedPhotos = await _curatedPhotosRepository.getCuratedPhotos();
+        final curatedPhotos =
+            await _curatedPhotosRepository.getCuratedPhotos(event.perPage);
         emit(HotBidsSuccessState(curatedPhotos));
       } catch (e) {
         emit(HotBidsErrorState(e.toString()));

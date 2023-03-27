@@ -25,7 +25,7 @@ class HotBidsWidget extends StatelessWidget {
   Widget _blocBody() {
     return BlocProvider(
       create: (context) =>
-          HotBidsBloc(CuratedPhotosRepository())..add(CuratedPhotosLoaded()),
+          HotBidsBloc(CuratedPhotosRepository())..add(CuratedPhotosLoaded(10)),
       child: BlocBuilder<HotBidsBloc, HotBidsState>(
         builder: (context, state) {
           if (state is HotBidsLoadingState) {
