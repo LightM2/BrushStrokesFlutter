@@ -17,37 +17,99 @@ class HotBidsScreen extends StatelessWidget {
             create: (BuildContext context) =>
                 HotBidsBloc(CuratedPhotosRepository())),
       ],
-      child: _blocBody(),
+      child: _blocBody(context),
     );
   }
 
-  Widget _blocBody() {
+  Widget _blocBody(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-      HotBidsBloc(CuratedPhotosRepository())..add(CuratedPhotosLoaded(40)),
-      child: BlocBuilder<HotBidsBloc, HotBidsState>(
-        builder: (context, state) {
-          if (state is HotBidsLoadingState) {
+          HotBidsBloc(CuratedPhotosRepository())..add(CuratedPhotosLoaded(40)),
+      child: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            floating: false,
+            pinned: true,
+            expandedHeight: 200.0,
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
+              title: Text(
+                "Hot bids 🔥",
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+            ),
+          ),
+          BlocBuilder<HotBidsBloc, HotBidsState>(
+            builder: (context, state) {
+              if (state is HotBidsLoadingState) {}
+              if (state is HotBidsErrorState) {
+                return SliverToBoxAdapter(child: Center(child: Text("Error")));
+              }
+              if (state is HotBidsSuccessState) {
+                List<Photo> curatedPhotos = state.curatedPhotos.photos;
 
-          }
-          if (state is HotBidsErrorState) {
-            return const Center(child: Text("Error"));
-          }
-          if (state is HotBidsSuccessState) {
-            List<Photo> curatedPhotos = state.curatedPhotos.photos;
-
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-
-              ],
-            );
-          }
-          return Container();
-        },
+                return SliverGrid.builder(
+                  itemCount: curatedPhotos.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 16,
+                  ),
+                  itemBuilder: (context, index) {
+                    return _hotBidsItem(
+                      curatedPhotos[index],
+                      Theme.of(context).textTheme,
+                      () {}, // todo open photo bottom sheets
+                    );
+                  },
+                );
+              }
+              return SliverToBoxAdapter(child: Container());
+            },
+          ),
+        ],
       ),
     );
   }
+
+  Widget _hotBidsItem(
+    Photo photo,
+    TextTheme textTheme,
+    VoidCallback openPhoto,
+  ) {
+    return Material(
+      child: InkWell(
+        onTap: openPhoto,
+        borderRadius: BorderRadius.circular(20),
+        child: SizedBox(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network(
+                  photo.src.portrait,
+                  fit: BoxFit.cover,
+                  height: 176,
+                  width: 176,
+                ),
+              ),
+              SizedBox(height: 4),
+              SizedBox(
+                width: 170,
+                child: Text(
+                  photo.photographer,
+                  softWrap: true,
+                  maxLines: 1,
+                  overflow: TextOverflow.clip,
+                  style: textTheme.titleLarge,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 }
