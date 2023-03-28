@@ -3,6 +3,7 @@ import 'package:brush_strokes/models/photos/photo.dart';
 import 'package:brush_strokes/repositories/curated_photos_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HotBidsScreen extends StatelessWidget {
   const HotBidsScreen({super.key});
@@ -41,7 +42,9 @@ class HotBidsScreen extends StatelessWidget {
           ),
           BlocBuilder<HotBidsBloc, HotBidsState>(
             builder: (context, state) {
-              if (state is HotBidsLoadingState) {}
+              if (state is HotBidsLoadingState) {
+                return _hotBidsShimmer(Theme.of(context).colorScheme);
+              }
               if (state is HotBidsErrorState) {
                 return SliverToBoxAdapter(child: Center(child: Text("Error")));
               }
@@ -51,8 +54,8 @@ class HotBidsScreen extends StatelessWidget {
                 return SliverGrid.builder(
                   itemCount: curatedPhotos.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 16,
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 16,
                   ),
                   itemBuilder: (context, index) {
                     return _hotBidsItem(
@@ -93,7 +96,7 @@ class HotBidsScreen extends StatelessWidget {
                   width: 176,
                 ),
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
               SizedBox(
                 width: 170,
                 child: Text(
@@ -112,4 +115,43 @@ class HotBidsScreen extends StatelessWidget {
     );
   }
 
+  Widget _hotBidsShimmer(
+    ColorScheme colorScheme,
+  ) {
+    return SliverGrid.builder(
+      itemCount: 6,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 16,
+      ),
+      itemBuilder: (context, index) {
+        return Shimmer.fromColors(
+          baseColor: colorScheme.surfaceVariant,
+          highlightColor: colorScheme.onSurfaceVariant,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                height: 176,
+                width: 176,
+                decoration: BoxDecoration(
+                  color: colorScheme.surfaceVariant,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              const SizedBox(height: 4),
+              Container(
+                width: 150,
+                height: 20,
+                decoration: BoxDecoration(
+                  color: colorScheme.surfaceVariant,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 }
