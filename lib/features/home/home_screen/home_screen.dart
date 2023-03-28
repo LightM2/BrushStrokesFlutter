@@ -10,28 +10,51 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MediaQueryData mediaQueryData = MediaQuery.of(context);
-    return Container(
-      padding: EdgeInsets.only(top: mediaQueryData.viewPadding.top),
-      alignment: Alignment.topLeft,
-      child: ListView(
-        scrollDirection: Axis.vertical,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            child: Text(
-              'Home',
-              style: Theme.of(context).textTheme.headlineMedium,
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          floating: false,
+          pinned: true,
+          expandedHeight: 100.0,
+          flexibleSpace: FlexibleSpaceBar(
+            titlePadding: EdgeInsets.only(left: 16, bottom: 16),
+            centerTitle: false,
+            title: Text(
+              "Home",
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
           ),
-          HotBidsWidget(),
-          SizedBox(height: 16),
-          BestCollectionWidget(),
-          SizedBox(height: 16),
-          LiveAuctionsWidget(),
-          SizedBox(height: 16),
-        ],
-      ),
+        ),
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              HotBidsWidget(),
+              SizedBox(height: 16),
+              BestCollectionWidget(),
+              SizedBox(height: 16),
+              LiveAuctionsWidget(),
+              SizedBox(height: 16),
+            ],
+          ),
+          /*scrollDirection: Axis.vertical,
+          children: [
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              child: Text(
+                'Home',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+            ),
+            HotBidsWidget(),
+            SizedBox(height: 16),
+            BestCollectionWidget(),
+            SizedBox(height: 16),
+            LiveAuctionsWidget(),
+            SizedBox(height: 16),
+          ],*/
+        ),
+      ],
     );
   }
 }
