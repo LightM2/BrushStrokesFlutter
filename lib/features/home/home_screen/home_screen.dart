@@ -36,23 +36,6 @@ class HomeScreen extends StatelessWidget {
               SizedBox(height: 16),
             ],
           ),
-          /*scrollDirection: Axis.vertical,
-          children: [
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-              child: Text(
-                'Home',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-            ),
-            HotBidsWidget(),
-            SizedBox(height: 16),
-            BestCollectionWidget(),
-            SizedBox(height: 16),
-            LiveAuctionsWidget(),
-            SizedBox(height: 16),
-          ],*/
         ),
       ],
     );

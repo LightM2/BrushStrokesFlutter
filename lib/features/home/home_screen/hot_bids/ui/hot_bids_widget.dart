@@ -1,3 +1,4 @@
+import 'package:brush_strokes/features/home/home_screen/home_header.dart';
 import 'package:brush_strokes/features/home/home_screen/hot_bids/bloc/hot_bids_bloc.dart';
 import 'package:brush_strokes/features/home/hot_bids_screen/hot_bids_screen.dart';
 import 'package:brush_strokes/models/photos/photo.dart';
@@ -50,11 +51,13 @@ class HotBidsWidget extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.only(left: 16),
-                  child: _hotBidsHeader(
-                    Theme.of(context).textTheme,
-                    Theme.of(context).colorScheme,
+                  child: HomeHeader(
+                    'Hot bids 🔥',
                     () {
-                      Navigator.pushNamed(context, HotBidsScreen.routeName);
+                      Navigator.pushNamed(
+                        context,
+                        HotBidsScreen.routeName,
+                      );
                     },
                   ),
                 ),
@@ -170,31 +173,6 @@ class HotBidsWidget extends StatelessWidget {
     );
   }
 
-  Widget _hotBidsHeader(
-    TextTheme textTheme,
-    ColorScheme colorScheme,
-    VoidCallback openHotBids,
-  ) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Text(
-          'Hot bids 🔥',
-          style: textTheme.headlineSmall,
-        ),
-        IconButton(
-          onPressed: openHotBids,
-          icon: Icon(
-            Icons.arrow_forward_ios,
-            color: colorScheme.onSurfaceVariant,
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _hotBidsShimmer(
     TextTheme textTheme,
     ColorScheme colorScheme,
@@ -207,11 +185,7 @@ class HotBidsWidget extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(left: 16),
-          child: _hotBidsHeader(
-            textTheme,
-            colorScheme,
-            openHotBids,
-          ),
+          child: HomeHeader('Hot bids 🔥', openHotBids),
         ),
         SizedBox(
           height: 220,

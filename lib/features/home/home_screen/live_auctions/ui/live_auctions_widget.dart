@@ -1,4 +1,5 @@
 import 'package:brush_strokes/features/home/auction_screen/auction_screen.dart';
+import 'package:brush_strokes/features/home/home_screen/home_header.dart';
 import 'package:brush_strokes/features/home/home_screen/live_auctions/bloc/live_auctions_bloc.dart';
 import 'package:brush_strokes/features/home/live_auctions_screen/live_auctions_screen.dart';
 import 'package:brush_strokes/models/videos/video.dart';
@@ -50,9 +51,8 @@ class LiveAuctionsWidget extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.only(left: 16),
-                  child: _liveAuctionsHeader(
-                    Theme.of(context).textTheme,
-                    Theme.of(context).colorScheme,
+                  child: HomeHeader(
+                    'Live auctions 🔴',
                     () {
                       Navigator.pushNamed(
                         context,
@@ -148,31 +148,6 @@ class LiveAuctionsWidget extends StatelessWidget {
     );
   }
 
-  Widget _liveAuctionsHeader(
-    TextTheme textTheme,
-    ColorScheme colorScheme,
-    VoidCallback openLiveAuctions,
-  ) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Text(
-          'Live auctions 🔴',
-          style: textTheme.headlineSmall,
-        ),
-        IconButton(
-          onPressed: openLiveAuctions,
-          icon: Icon(
-            Icons.arrow_forward_ios,
-            color: colorScheme.onSurfaceVariant,
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _liveAuctionsShimmer(
     TextTheme textTheme,
     ColorScheme colorScheme,
@@ -185,11 +160,7 @@ class LiveAuctionsWidget extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(left: 16),
-          child: _liveAuctionsHeader(
-            textTheme,
-            colorScheme,
-            openLiveAuctions,
-          ),
+          child: HomeHeader('Live auctions 🔴', openLiveAuctions),
         ),
         SizedBox(
           height: 200,

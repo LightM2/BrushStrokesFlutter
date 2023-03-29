@@ -1,6 +1,7 @@
 import 'package:brush_strokes/features/home/best_collections_screen/best_collections_screen.dart';
 import 'package:brush_strokes/features/home/collection_screen/collection_screen.dart';
 import 'package:brush_strokes/features/home/home_screen/best_collections/bloc/best_collections_bloc.dart';
+import 'package:brush_strokes/features/home/home_screen/home_header.dart';
 import 'package:brush_strokes/models/collections/collection.dart';
 import 'package:brush_strokes/repositories/featured_collections_repository.dart';
 import 'package:brush_strokes/theme/colors.dart';
@@ -52,9 +53,8 @@ class BestCollectionWidget extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.only(left: 16),
-                child: _bestCollectionsHeader(
-                  Theme.of(context).textTheme,
-                  Theme.of(context).colorScheme,
+                child: HomeHeader(
+                  'Best collections 💥',
                   () {
                     Navigator.pushNamed(
                       context,
@@ -147,31 +147,6 @@ class BestCollectionWidget extends StatelessWidget {
     );
   }
 
-  Widget _bestCollectionsHeader(
-    TextTheme textTheme,
-    ColorScheme colorScheme,
-    VoidCallback openBestCollections,
-  ) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Text(
-          'Best collections 💥',
-          style: textTheme.headlineSmall,
-        ),
-        IconButton(
-          onPressed: openBestCollections,
-          icon: Icon(
-            Icons.arrow_forward_ios,
-            color: colorScheme.onSurfaceVariant,
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _bestCollectionsShimmer(
     TextTheme textTheme,
     ColorScheme colorScheme,
@@ -184,11 +159,7 @@ class BestCollectionWidget extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(left: 16),
-          child: _bestCollectionsHeader(
-            textTheme,
-            colorScheme,
-            openBestCollections,
-          ),
+          child: HomeHeader('Best collections 💥', openBestCollections),
         ),
         SizedBox(
           height: 140,
