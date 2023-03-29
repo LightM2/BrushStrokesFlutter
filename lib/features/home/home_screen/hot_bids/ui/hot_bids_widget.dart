@@ -71,7 +71,15 @@ class HotBidsWidget extends StatelessWidget {
                         curatedPhotos[index],
                         Theme.of(context).textTheme,
                         Theme.of(context).colorScheme,
-                        () {}, // todo open photo bottom sheets
+                        () => showModalBottomSheet(
+                          useSafeArea: true,
+                          isScrollControlled: true,
+                          useRootNavigator: true,
+                          context: context,
+                          builder: (context) {
+                            return Container();
+                          },
+                        ),
                       );
                     },
                   ),
