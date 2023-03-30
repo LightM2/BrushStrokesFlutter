@@ -1,28 +1,12 @@
-import 'dart:convert' as convert;
-import 'dart:io';
-
-import 'package:brush_strokes/env/env.dart';
-import 'package:brush_strokes/const.dart';
 import 'package:brush_strokes/models/collections/collection_media.dart';
-import 'package:http/http.dart' as http;
+import 'package:brush_strokes/models/pexels_api_client.dart';
 
 class CollectionMediaRepository {
+  CollectionMediaRepository({PexelsApiClient? apiClient})
+      : _apiClient = apiClient ?? PexelsApiClient();
+  final PexelsApiClient _apiClient;
+
   Future<CollectionMedia> getCollectionMedia(int id) async {
-    String collectionMediaEndpoint = '$BASE_URL/collections/$id?per_page=10';
-    final response = await http.get(
-      Uri.parse(collectionMediaEndpoint),
-      headers: {
-        HttpHeaders.authorizationHeader: Env.pexelsApiKey,
-      },
-    );
-
-    if (response.statusCode == 200) {
-      var jsonResponse =
-          convert.jsonDecode(response.body) as Map<String, dynamic>;
-
-      return CollectionMedia.fromJson(jsonResponse);
-    } else {
-      throw Exception(response.reasonPhrase);
-    }
+    return await _apiClient.getCollectionMedia(id);
   }
 }
