@@ -4,6 +4,12 @@ import 'package:brush_strokes/features/root/bloc/navigation_cubit.dart';
 import 'package:brush_strokes/features/cart/ui/cart_screen.dart';
 import 'package:brush_strokes/features/notification/ui/notification_screen.dart';
 import 'package:brush_strokes/features/search/ui/search_screen.dart';
+import 'package:brush_strokes/repositories/collection_media_repository.dart';
+import 'package:brush_strokes/repositories/curated_photos_repository.dart';
+import 'package:brush_strokes/repositories/featured_collections_repository.dart';
+import 'package:brush_strokes/repositories/photo_repository.dart';
+import 'package:brush_strokes/repositories/popular_videos_repository.dart';
+import 'package:brush_strokes/repositories/video_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,6 +23,32 @@ class RootScreen extends StatefulWidget {
 class _RootScreenState extends State<RootScreen> {
   @override
   Widget build(BuildContext context) {
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(
+          create: (context) => CollectionMediaRepository(),
+        ),
+        RepositoryProvider(
+          create: (context) => CuratedPhotosRepository(),
+        ),
+        RepositoryProvider(
+          create: (context) => FeaturedCollectionsRepository(),
+        ),
+        RepositoryProvider(
+          create: (context) => PhotoRepository(),
+        ),
+        RepositoryProvider(
+          create: (context) => PopularVideosRepository(),
+        ),
+        RepositoryProvider(
+          create: (context) => VideoRepository(),
+        ),
+      ],
+      child: _body(),
+    );
+  }
+
+  Widget _body() {
     return BlocBuilder<NavigationCubit, NavigationState>(
       builder: (context, state) {
         return WillPopScope(

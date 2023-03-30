@@ -14,23 +14,17 @@ class BestCollectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<BestCollectionsBloc>(
-          create: (BuildContext context) =>
-              BestCollectionsBloc(FeaturedCollectionsRepository()),
-        ),
-      ],
+    return BlocProvider(
+      create: (context) => BestCollectionsBloc(
+        context.read<FeaturedCollectionsRepository>(),
+      )..add(FeaturedCollectionsLoaded()),
       child: _blocBody(),
     );
   }
 
   Widget _blocBody() {
-    return BlocProvider(
-      create: (context) => BestCollectionsBloc(FeaturedCollectionsRepository())
-        ..add(FeaturedCollectionsLoaded()),
-      child: BlocBuilder<BestCollectionsBloc, BestCollectionsState>(
-          builder: (context, state) {
+    return BlocBuilder<BestCollectionsBloc, BestCollectionsState>(
+      builder: (context, state) {
         if (state is BestCollectionsLoadingState) {
           return _bestCollectionsShimmer(
             Theme.of(context).textTheme,
@@ -89,7 +83,7 @@ class BestCollectionWidget extends StatelessWidget {
         }
 
         return Container();
-      }),
+      },
     );
   }
 

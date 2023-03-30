@@ -13,80 +13,74 @@ class LiveAuctionsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<LiveAuctionsBloc>(
-            create: (BuildContext context) =>
-                LiveAuctionsBloc(PopularVideosRepository())),
-      ],
+    return BlocProvider(
+      create: (context) => LiveAuctionsBloc(
+        context.read<PopularVideosRepository>(),
+      )..add(PopularVideosLoaded()),
       child: _blocBody(),
     );
   }
 
   Widget _blocBody() {
-    return BlocProvider(
-      create: (context) => LiveAuctionsBloc(PopularVideosRepository())
-        ..add(PopularVideosLoaded()),
-      child: BlocBuilder<LiveAuctionsBloc, LiveAuctionsState>(
-        builder: (context, state) {
-          if (state is LiveAuctionsLoadingState) {
-            return _liveAuctionsShimmer(
-              Theme.of(context).textTheme,
-              Theme.of(context).colorScheme,
-              () {
-                Navigator.pushNamed(context, LiveAuctionsScreen.routeName);
-              },
-            );
-          }
-          if (state is LiveAuctionsErrorState) {
-            return const Center(child: Text("Error"));
-          }
-          if (state is LiveAuctionsSuccessState) {
-            List<Video> popularVideos = state.popularVideos.videos;
+    return BlocBuilder<LiveAuctionsBloc, LiveAuctionsState>(
+      builder: (context, state) {
+        if (state is LiveAuctionsLoadingState) {
+          return _liveAuctionsShimmer(
+            Theme.of(context).textTheme,
+            Theme.of(context).colorScheme,
+            () {
+              Navigator.pushNamed(context, LiveAuctionsScreen.routeName);
+            },
+          );
+        }
+        if (state is LiveAuctionsErrorState) {
+          return const Center(child: Text("Error"));
+        }
+        if (state is LiveAuctionsSuccessState) {
+          List<Video> popularVideos = state.popularVideos.videos;
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 16),
-                  child: HomeHeader(
-                    'Live auctions 🔴',
-                    () {
-                      Navigator.pushNamed(
-                        context,
-                        LiveAuctionsScreen.routeName,
-                      );
-                    },
-                  ),
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 16),
+                child: HomeHeader(
+                  'Live auctions 🔴',
+                  () {
+                    Navigator.pushNamed(
+                      context,
+                      LiveAuctionsScreen.routeName,
+                    );
+                  },
                 ),
-                Container(
-                  height: 200,
-                  child: ListView.separated(
-                    padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: popularVideos.length,
-                    separatorBuilder: (context, _) => SizedBox(width: 16),
-                    itemBuilder: (context, index) {
-                      return _liveAuctionsItem(
-                        popularVideos[index],
-                        Theme.of(context).textTheme,
-                        Theme.of(context).colorScheme,
-                        () {
-                          Navigator.pushNamed(context, AuctionScreen.routeName);
-                        },
-                      );
-                    },
-                  ),
+              ),
+              Container(
+                height: 200,
+                child: ListView.separated(
+                  padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: popularVideos.length,
+                  separatorBuilder: (context, _) => SizedBox(width: 16),
+                  itemBuilder: (context, index) {
+                    return _liveAuctionsItem(
+                      popularVideos[index],
+                      Theme.of(context).textTheme,
+                      Theme.of(context).colorScheme,
+                      () {
+                        Navigator.pushNamed(context, AuctionScreen.routeName);
+                      },
+                    );
+                  },
                 ),
-              ],
-            );
-          }
-          return Container();
-        },
-      ),
+              ),
+            ],
+          );
+        }
+        return Container();
+      },
     );
   }
 

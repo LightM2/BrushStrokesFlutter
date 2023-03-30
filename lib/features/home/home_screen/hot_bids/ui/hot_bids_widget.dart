@@ -13,78 +13,72 @@ class HotBidsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<HotBidsBloc>(
-            create: (BuildContext context) =>
-                HotBidsBloc(CuratedPhotosRepository())),
-      ],
+    return BlocProvider(
+      create: (context) => HotBidsBloc(
+        context.read<CuratedPhotosRepository>(),
+      )..add(CuratedPhotosLoaded()),
       child: _blocBody(),
     );
   }
 
   Widget _blocBody() {
-    return BlocProvider(
-      create: (context) =>
-          HotBidsBloc(CuratedPhotosRepository())..add(CuratedPhotosLoaded()),
-      child: BlocBuilder<HotBidsBloc, HotBidsState>(
-        builder: (context, state) {
-          if (state is HotBidsLoadingState) {
-            return _hotBidsShimmer(
-              Theme.of(context).textTheme,
-              Theme.of(context).colorScheme,
-              () {
-                Navigator.pushNamed(context, HotBidsScreen.routeName);
-              },
-            );
-          }
-          if (state is HotBidsErrorState) {
-            return const Center(child: Text("Error"));
-          }
-          if (state is HotBidsSuccessState) {
-            List<Photo> curatedPhotos = state.curatedPhotos.photos;
+    return BlocBuilder<HotBidsBloc, HotBidsState>(
+      builder: (context, state) {
+        if (state is HotBidsLoadingState) {
+          return _hotBidsShimmer(
+            Theme.of(context).textTheme,
+            Theme.of(context).colorScheme,
+            () {
+              Navigator.pushNamed(context, HotBidsScreen.routeName);
+            },
+          );
+        }
+        if (state is HotBidsErrorState) {
+          return const Center(child: Text("Error"));
+        }
+        if (state is HotBidsSuccessState) {
+          List<Photo> curatedPhotos = state.curatedPhotos.photos;
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 16),
-                  child: HomeHeader(
-                    'Hot bids 🔥',
-                    () {
-                      Navigator.pushNamed(
-                        context,
-                        HotBidsScreen.routeName,
-                      );
-                    },
-                  ),
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 16),
+                child: HomeHeader(
+                  'Hot bids 🔥',
+                  () {
+                    Navigator.pushNamed(
+                      context,
+                      HotBidsScreen.routeName,
+                    );
+                  },
                 ),
-                Container(
-                  height: 220,
-                  child: ListView.separated(
-                    padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: curatedPhotos.length,
-                    separatorBuilder: (context, _) => SizedBox(width: 16),
-                    itemBuilder: (context, index) {
-                      return _hotBidsItem(
-                        curatedPhotos[index],
-                        Theme.of(context).textTheme,
-                        Theme.of(context).colorScheme,
-                        () {}, // todo open photo bottom sheets
-                      );
-                    },
-                  ),
+              ),
+              Container(
+                height: 220,
+                child: ListView.separated(
+                  padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: curatedPhotos.length,
+                  separatorBuilder: (context, _) => SizedBox(width: 16),
+                  itemBuilder: (context, index) {
+                    return _hotBidsItem(
+                      curatedPhotos[index],
+                      Theme.of(context).textTheme,
+                      Theme.of(context).colorScheme,
+                      () {}, // todo open photo bottom sheets
+                    );
+                  },
                 ),
-              ],
-            );
-          }
-          return Container();
-        },
-      ),
+              ),
+            ],
+          );
+        }
+        return Container();
+      },
     );
   }
 
