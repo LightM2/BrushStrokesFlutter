@@ -12,65 +12,59 @@ class HotBidsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<HotBidsBloc>(
-            create: (BuildContext context) =>
-                HotBidsBloc(CuratedPhotosRepository())),
-      ],
+    return BlocProvider(
+      create: (context) => HotBidsBloc(
+        context.read<CuratedPhotosRepository>(),
+      )..add(CuratedPhotosLoaded(40)),
       child: _blocBody(context),
     );
   }
 
   Widget _blocBody(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          HotBidsBloc(CuratedPhotosRepository())..add(CuratedPhotosLoaded(40)),
-      child: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            floating: false,
-            pinned: true,
-            expandedHeight: 200.0,
-            flexibleSpace: FlexibleSpaceBar(
-              centerTitle: true,
-              title: Text(
-                "Hot bids 🔥",
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverAppBar(
+          floating: false,
+          pinned: true,
+          expandedHeight: 200.0,
+          flexibleSpace: FlexibleSpaceBar(
+            centerTitle: true,
+            title: Text(
+              "Hot bids 🔥",
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
           ),
-          BlocBuilder<HotBidsBloc, HotBidsState>(
-            builder: (context, state) {
-              if (state is HotBidsLoadingState) {
-                return _hotBidsShimmer(Theme.of(context).colorScheme);
-              }
-              if (state is HotBidsErrorState) {
-                return SliverToBoxAdapter(child: Center(child: Text("Error")));
-              }
-              if (state is HotBidsSuccessState) {
-                List<Photo> curatedPhotos = state.curatedPhotos.photos;
+        ),
+        BlocBuilder<HotBidsBloc, HotBidsState>(
+          builder: (context, state) {
+            if (state is HotBidsLoadingState) {
+              return _hotBidsShimmer(Theme.of(context).colorScheme);
+            }
+            if (state is HotBidsErrorState) {
+              return SliverToBoxAdapter(child: Center(child: Text("Error")));
+            }
+            if (state is HotBidsSuccessState) {
+              List<Photo> curatedPhotos = state.curatedPhotos.photos;
 
-                return SliverGrid.builder(
-                  itemCount: curatedPhotos.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                  ),
-                  itemBuilder: (context, index) {
-                    return _hotBidsItem(
-                      curatedPhotos[index],
-                      Theme.of(context).textTheme,
-                      () {}, // todo open photo bottom sheets
-                    );
-                  },
-                );
-              }
-              return SliverToBoxAdapter(child: Container());
-            },
-          ),
-        ],
-      ),
+              return SliverGrid.builder(
+                itemCount: curatedPhotos.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 16,
+                ),
+                itemBuilder: (context, index) {
+                  return _hotBidsItem(
+                    curatedPhotos[index],
+                    Theme.of(context).textTheme,
+                    () {}, // todo open photo bottom sheets
+                  );
+                },
+              );
+            }
+            return SliverToBoxAdapter(child: Container());
+          },
+        ),
+      ],
     );
   }
 

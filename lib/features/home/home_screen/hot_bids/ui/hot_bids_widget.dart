@@ -1,3 +1,4 @@
+import 'package:brush_strokes/features/home/home_screen/home_header.dart';
 import 'package:brush_strokes/features/home/home_screen/hot_bids/bloc/hot_bids_bloc.dart';
 import 'package:brush_strokes/features/home/hot_bids_screen/hot_bids_screen.dart';
 import 'package:brush_strokes/models/photos/photo.dart';
@@ -12,84 +13,80 @@ class HotBidsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<HotBidsBloc>(
-            create: (BuildContext context) =>
-                HotBidsBloc(CuratedPhotosRepository())),
-      ],
+    return BlocProvider(
+      create: (context) => HotBidsBloc(
+        context.read<CuratedPhotosRepository>(),
+      )..add(CuratedPhotosLoaded(10)),
       child: _blocBody(),
     );
   }
 
   Widget _blocBody() {
-    return BlocProvider(
-      create: (context) =>
-          HotBidsBloc(CuratedPhotosRepository())..add(CuratedPhotosLoaded(10)),
-      child: BlocBuilder<HotBidsBloc, HotBidsState>(
-        builder: (context, state) {
-          if (state is HotBidsLoadingState) {
-            return _hotBidsShimmer(
-              Theme.of(context).textTheme,
-              Theme.of(context).colorScheme,
-              () {
-                Navigator.pushNamed(context, HotBidsScreen.routeName);
-              },
-            );
-          }
-          if (state is HotBidsErrorState) {
-            return const Center(child: Text("Error"));
-          }
-          if (state is HotBidsSuccessState) {
-            List<Photo> curatedPhotos = state.curatedPhotos.photos;
+    return BlocBuilder<HotBidsBloc, HotBidsState>(
+      builder: (context, state) {
+        if (state is HotBidsLoadingState) {
+          return _hotBidsShimmer(
+            Theme.of(context).textTheme,
+            Theme.of(context).colorScheme,
+            () {
+              Navigator.pushNamed(context, HotBidsScreen.routeName);
+            },
+          );
+        }
+        if (state is HotBidsErrorState) {
+          return const Center(child: Text("Error"));
+        }
+        if (state is HotBidsSuccessState) {
+          List<Photo> curatedPhotos = state.curatedPhotos.photos;
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 16),
-                  child: _hotBidsHeader(
-                    Theme.of(context).textTheme,
-                    Theme.of(context).colorScheme,
-                    () {
-                      Navigator.pushNamed(context, HotBidsScreen.routeName);
-                    },
-                  ),
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 16),
+                child: HomeHeader(
+                  'Hot bids 🔥',
+                  () {
+                    Navigator.pushNamed(
+                      context,
+                      HotBidsScreen.routeName,
+                    );
+                  },
                 ),
-                Container(
-                  height: 220,
-                  child: ListView.separated(
-                    padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: curatedPhotos.length,
-                    separatorBuilder: (context, _) => SizedBox(width: 16),
-                    itemBuilder: (context, index) {
-                      return _hotBidsItem(
-                        curatedPhotos[index],
-                        Theme.of(context).textTheme,
-                        Theme.of(context).colorScheme,
-                        () => showModalBottomSheet(
-                          useSafeArea: true,
-                          isScrollControlled: true,
-                          useRootNavigator: true,
-                          context: context,
-                          builder: (context) {
-                            return Container();
-                          },
-                        ),
-                      );
-                    },
-                  ),
+              ),
+              Container(
+                height: 220,
+                child: ListView.separated(
+                  padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: curatedPhotos.length,
+                  separatorBuilder: (context, _) => SizedBox(width: 16),
+                  itemBuilder: (context, index) {
+                    return _hotBidsItem(
+                      curatedPhotos[index],
+                      Theme.of(context).textTheme,
+                      Theme.of(context).colorScheme,
+                      () => showModalBottomSheet(
+                        useSafeArea: true,
+                        isScrollControlled: true,
+                        useRootNavigator: true,
+                        context: context,
+                        builder: (context) {
+                          return Container();
+                        },
+                      ),
+                    );
+                  },
                 ),
-              ],
-            );
-          }
-          return Container();
-        },
-      ),
+              ),
+            ],
+          );
+        }
+        return Container();
+      },
     );
   }
 
@@ -178,31 +175,6 @@ class HotBidsWidget extends StatelessWidget {
     );
   }
 
-  Widget _hotBidsHeader(
-    TextTheme textTheme,
-    ColorScheme colorScheme,
-    VoidCallback openHotBids,
-  ) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Text(
-          'Hot bids 🔥',
-          style: textTheme.headlineSmall,
-        ),
-        IconButton(
-          onPressed: openHotBids,
-          icon: Icon(
-            Icons.arrow_forward_ios,
-            color: colorScheme.onSurfaceVariant,
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _hotBidsShimmer(
     TextTheme textTheme,
     ColorScheme colorScheme,
@@ -215,11 +187,7 @@ class HotBidsWidget extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(left: 16),
-          child: _hotBidsHeader(
-            textTheme,
-            colorScheme,
-            openHotBids,
-          ),
+          child: HomeHeader('Hot bids 🔥', openHotBids),
         ),
         SizedBox(
           height: 220,

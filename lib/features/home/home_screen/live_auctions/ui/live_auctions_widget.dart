@@ -1,4 +1,5 @@
 import 'package:brush_strokes/features/home/auction_screen/auction_screen.dart';
+import 'package:brush_strokes/features/home/home_screen/home_header.dart';
 import 'package:brush_strokes/features/home/home_screen/live_auctions/bloc/live_auctions_bloc.dart';
 import 'package:brush_strokes/features/home/live_auctions_screen/live_auctions_screen.dart';
 import 'package:brush_strokes/models/videos/video.dart';
@@ -12,81 +13,74 @@ class LiveAuctionsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<LiveAuctionsBloc>(
-            create: (BuildContext context) =>
-                LiveAuctionsBloc(PopularVideosRepository())),
-      ],
+    return BlocProvider(
+      create: (context) => LiveAuctionsBloc(
+        context.read<PopularVideosRepository>(),
+      )..add(PopularVideosLoaded()),
       child: _blocBody(),
     );
   }
 
   Widget _blocBody() {
-    return BlocProvider(
-      create: (context) => LiveAuctionsBloc(PopularVideosRepository())
-        ..add(PopularVideosLoaded()),
-      child: BlocBuilder<LiveAuctionsBloc, LiveAuctionsState>(
-        builder: (context, state) {
-          if (state is LiveAuctionsLoadingState) {
-            return _liveAuctionsShimmer(
-              Theme.of(context).textTheme,
-              Theme.of(context).colorScheme,
-              () {
-                Navigator.pushNamed(context, LiveAuctionsScreen.routeName);
-              },
-            );
-          }
-          if (state is LiveAuctionsErrorState) {
-            return const Center(child: Text("Error"));
-          }
-          if (state is LiveAuctionsSuccessState) {
-            List<Video> popularVideos = state.popularVideos.videos;
+    return BlocBuilder<LiveAuctionsBloc, LiveAuctionsState>(
+      builder: (context, state) {
+        if (state is LiveAuctionsLoadingState) {
+          return _liveAuctionsShimmer(
+            Theme.of(context).textTheme,
+            Theme.of(context).colorScheme,
+            () {
+              Navigator.pushNamed(context, LiveAuctionsScreen.routeName);
+            },
+          );
+        }
+        if (state is LiveAuctionsErrorState) {
+          return const Center(child: Text("Error"));
+        }
+        if (state is LiveAuctionsSuccessState) {
+          List<Video> popularVideos = state.popularVideos.videos;
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 16),
-                  child: _liveAuctionsHeader(
-                    Theme.of(context).textTheme,
-                    Theme.of(context).colorScheme,
-                    () {
-                      Navigator.pushNamed(
-                        context,
-                        LiveAuctionsScreen.routeName,
-                      );
-                    },
-                  ),
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 16),
+                child: HomeHeader(
+                  'Live auctions 🔴',
+                  () {
+                    Navigator.pushNamed(
+                      context,
+                      LiveAuctionsScreen.routeName,
+                    );
+                  },
                 ),
-                Container(
-                  height: 200,
-                  child: ListView.separated(
-                    padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: popularVideos.length,
-                    separatorBuilder: (context, _) => SizedBox(width: 16),
-                    itemBuilder: (context, index) {
-                      return _liveAuctionsItem(
-                        popularVideos[index],
-                        Theme.of(context).textTheme,
-                        Theme.of(context).colorScheme,
-                        () {
-                          Navigator.pushNamed(context, AuctionScreen.routeName);
-                        },
-                      );
-                    },
-                  ),
+              ),
+              Container(
+                height: 200,
+                child: ListView.separated(
+                  padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: popularVideos.length,
+                  separatorBuilder: (context, _) => SizedBox(width: 16),
+                  itemBuilder: (context, index) {
+                    return _liveAuctionsItem(
+                      popularVideos[index],
+                      Theme.of(context).textTheme,
+                      Theme.of(context).colorScheme,
+                      () {
+                        Navigator.pushNamed(context, AuctionScreen.routeName);
+                      },
+                    );
+                  },
                 ),
-              ],
-            );
-          }
-          return Container();
-        },
-      ),
+              ),
+            ],
+          );
+        }
+        return Container();
+      },
     );
   }
 
@@ -148,31 +142,6 @@ class LiveAuctionsWidget extends StatelessWidget {
     );
   }
 
-  Widget _liveAuctionsHeader(
-    TextTheme textTheme,
-    ColorScheme colorScheme,
-    VoidCallback openLiveAuctions,
-  ) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Text(
-          'Live auctions 🔴',
-          style: textTheme.headlineSmall,
-        ),
-        IconButton(
-          onPressed: openLiveAuctions,
-          icon: Icon(
-            Icons.arrow_forward_ios,
-            color: colorScheme.onSurfaceVariant,
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _liveAuctionsShimmer(
     TextTheme textTheme,
     ColorScheme colorScheme,
@@ -185,11 +154,7 @@ class LiveAuctionsWidget extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(left: 16),
-          child: _liveAuctionsHeader(
-            textTheme,
-            colorScheme,
-            openLiveAuctions,
-          ),
+          child: HomeHeader('Live auctions 🔴', openLiveAuctions),
         ),
         SizedBox(
           height: 200,
