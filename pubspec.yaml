@@ -9,6 +9,7 @@ environment:
 dependencies:
   cached_network_image: ^3.2.3
   cupertino_icons: ^1.0.5
+  dio: ^5.1.1
   envied: ^0.3.0
   equatable: ^2.0.5
 
@@ -18,7 +19,6 @@ dependencies:
   flutter_spinkit: ^5.1.0
 
   google_fonts: ^4.0.3
-  http: ^0.13.5
   internet_connection_checker: ^1.0.0+1
   intl: ^0.18.0
   json_annotation: ^4.8.0
