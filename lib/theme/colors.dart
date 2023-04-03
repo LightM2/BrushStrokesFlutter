@@ -52,7 +52,7 @@ const darkColorScheme = ColorScheme(
   errorContainer: Color(0xFF93000A),
   onError: Color(0xFF690005),
   onErrorContainer: Color(0xFFFFDAD6),
-  background: Color(0xFF212223),
+  background: Color(0xFF191B1C),
   onBackground: Color(0xFFE5E1E6),
   surface: Color(0xFF1C1B1F),
   onSurface: Color(0xFFC8C5CA),
@@ -67,3 +67,5 @@ const darkColorScheme = ColorScheme(
   outlineVariant: Color(0xFF47464F),
   scrim: Color(0xFF000000),
 );
+
+const Color goldColor = Color(0xFFEBAB33);

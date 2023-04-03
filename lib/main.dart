@@ -1,7 +1,7 @@
-import 'package:brush_strokes/blocs/navigation/navigation_cubit.dart';
-import 'package:brush_strokes/ui/theme/colors.dart';
-import 'package:brush_strokes/ui/theme/typography.dart';
-import 'package:brush_strokes/ui/root/root_screen.dart';
+import 'package:brush_strokes/features/root/bloc/navigation_cubit.dart';
+import 'package:brush_strokes/features/root/ui/root_screen.dart';
+import 'package:brush_strokes/theme/colors.dart';
+import 'package:brush_strokes/theme/typography.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,7 +18,8 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       create: (context) => NavigationCubit(),
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Brush strokes',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: lightColorScheme,
