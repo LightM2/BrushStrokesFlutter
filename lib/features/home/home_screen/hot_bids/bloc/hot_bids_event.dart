@@ -6,6 +6,10 @@ abstract class HotBidsEvent extends Equatable {
 }
 
 class CuratedPhotosLoaded extends HotBidsEvent {
+  final int perPage;
+
+  CuratedPhotosLoaded(this.perPage);
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [perPage];
 }

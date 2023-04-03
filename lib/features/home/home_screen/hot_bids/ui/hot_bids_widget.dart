@@ -16,7 +16,7 @@ class HotBidsWidget extends StatelessWidget {
     return BlocProvider(
       create: (context) => HotBidsBloc(
         context.read<CuratedPhotosRepository>(),
-      )..add(CuratedPhotosLoaded()),
+      )..add(CuratedPhotosLoaded(10)),
       child: _blocBody(),
     );
   }
