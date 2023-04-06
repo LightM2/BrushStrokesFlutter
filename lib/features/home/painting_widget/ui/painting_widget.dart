@@ -1,3 +1,5 @@
+// ignore_for_file: inference_failure_on_instance_creation
+
 import 'package:brush_strokes/const.dart';
 import 'package:brush_strokes/features/home/painting_widget/bloc/painting_bloc.dart';
 import 'package:brush_strokes/models/photos/photo.dart';
@@ -48,8 +50,12 @@ class PaintingWidget extends StatelessWidget {
             painting,
             size.height * .4,
             size.width,
-            () {},
-            () {},
+            () {
+              Navigator.pop(context);
+            },
+            () {
+              _paintingDialog(context, painting.src.original);
+            },
           ),
         ),
         Positioned(
@@ -104,33 +110,11 @@ class PaintingWidget extends StatelessWidget {
                   ?.copyWith(color: colorScheme.onSurfaceVariant),
             ),
             SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(22),
-                  child: Image.network(
-                    painting.src.portrait,
-                    fit: BoxFit.cover,
-                    height: 44,
-                    width: 44,
-                  ),
-                ),
-                SizedBox(width: 12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Artist',
-                      style: textTheme.bodyMedium
-                          ?.copyWith(color: colorScheme.onSurfaceVariant),
-                    ),
-                    SizedBox(height: 4),
-                    Text(painting.photographer, style: textTheme.titleMedium),
-                  ],
-                ),
-              ],
+            _paintingArtist(
+              painting.src.original,
+              painting.photographer,
+              textTheme,
+              colorScheme,
             ),
             SizedBox(height: 20),
             Padding(
@@ -151,6 +135,42 @@ class PaintingWidget extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _paintingArtist(
+    String url,
+    String name,
+    TextTheme textTheme,
+    ColorScheme colorScheme,
+  ) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(22),
+          child: Image.network(
+            url,
+            fit: BoxFit.cover,
+            height: 44,
+            width: 44,
+          ),
+        ),
+        SizedBox(width: 12),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Artist',
+              style: textTheme.bodyMedium
+                  ?.copyWith(color: colorScheme.onSurfaceVariant),
+            ),
+            SizedBox(height: 4),
+            Text(name, style: textTheme.titleMedium),
+          ],
+        ),
+      ],
     );
   }
 
@@ -225,50 +245,81 @@ class PaintingWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(
-                onPressed: closeWidget,
-                icon: const Icon(
-                  Icons.arrow_downward,
-                  color: Colors.white,
-                ),
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  backgroundColor: MaterialStateProperty.all(
-                    Colors.white.withOpacity(0.25),
-                  ),
-                  fixedSize: MaterialStateProperty.all(
-                    const Size(16, 16),
-                  ),
-                ),
-              ),
-              IconButton(
-                onPressed: showFullPainting,
-                icon: const Icon(
-                  Icons.open_in_full,
-                  color: Colors.white,
-                ),
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  backgroundColor: MaterialStateProperty.all(
-                    Colors.white.withOpacity(0.25),
-                  ),
-                  fixedSize: MaterialStateProperty.all(
-                    const Size(16, 16),
-                  ),
-                ),
-              ),
+              _paintingIconButton(Icons.arrow_downward, closeWidget),
+              _paintingIconButton(Icons.open_in_full_rounded, showFullPainting),
             ],
           ),
         )
       ],
+    );
+  }
+
+  Widget _paintingIconButton(
+    IconData buttonIcon,
+    VoidCallback onClick,
+  ) {
+    return IconButton(
+      onPressed: onClick,
+      icon: Icon(
+        buttonIcon,
+        color: Colors.white,
+      ),
+      style: ButtonStyle(
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        backgroundColor: MaterialStateProperty.all(
+          Colors.grey.withOpacity(0.45),
+        ),
+        fixedSize: MaterialStateProperty.all(
+          const Size(16, 16),
+        ),
+      ),
+    );
+  }
+
+  void _paintingDialog(
+    BuildContext context,
+    String url,
+  ) {
+    showGeneralDialog(
+      useRootNavigator: false,
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      context: context,
+      pageBuilder: (ctx, a1, a2) {
+        return Container();
+      },
+      transitionBuilder: (ctx, a1, a2, child) {
+        var curve = Curves.easeInOut.transform(a1.value);
+        return Transform.scale(
+          scale: curve,
+          child: Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network(
+                  url,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              Positioned(
+                right: 16,
+                top: 16,
+                child: _paintingIconButton(
+                  Icons.close_fullscreen_rounded,
+                  () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 300),
     );
   }
 }
