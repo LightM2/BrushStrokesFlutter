@@ -73,14 +73,10 @@ class PaintingWidget extends StatelessWidget {
               children: [
                 Expanded(
                   flex: 7,
-                  child: CustomScrollView(
-                    slivers: [
-                      _paintingInformation(
-                        painting,
-                        Theme.of(context).textTheme,
-                        Theme.of(context).colorScheme,
-                      ),
-                    ],
+                  child: _paintingInformation(
+                    painting,
+                    Theme.of(context).textTheme,
+                    Theme.of(context).colorScheme,
                   ),
                 ),
                 Expanded(
@@ -105,44 +101,41 @@ class PaintingWidget extends StatelessWidget {
     TextTheme textTheme,
     ColorScheme colorScheme,
   ) {
-    return SliverPadding(
+    return ListView(
+      shrinkWrap: true,
       padding: const EdgeInsets.all(20),
-      sliver: SliverList(
-        delegate: SliverChildListDelegate(
-          [
-            Text(painting.avgColor, style: textTheme.headlineSmall),
-            SizedBox(height: 4),
-            Text(
-              'Edition 1 of 10',
-              style: textTheme.bodyMedium
-                  ?.copyWith(color: colorScheme.onSurfaceVariant),
-            ),
-            SizedBox(height: 24),
-            _paintingArtist(
-              painting.src.small,
-              painting.photographer,
-              textTheme,
-              colorScheme,
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 22),
-              child: Text(
-                'Overview',
-                style:
-                    textTheme.titleMedium?.copyWith(color: colorScheme.primary),
-              ),
-            ),
-            Divider(thickness: 2, color: colorScheme.primary),
-            Text(
-              painting.alt.isEmpty ? BASE_OVERVIEW : painting.alt,
-              style: textTheme.bodyLarge
-                  ?.copyWith(color: colorScheme.onSurfaceVariant),
-              textAlign: TextAlign.justify,
-            ),
-          ],
+      children: [
+        Text(painting.avgColor, style: textTheme.headlineSmall),
+        SizedBox(height: 4),
+        Text(
+          'Edition 1 of 10',
+          style: textTheme.bodyMedium
+              ?.copyWith(color: colorScheme.onSurfaceVariant),
         ),
-      ),
+        SizedBox(height: 24),
+        _paintingArtist(
+          painting.src.small,
+          painting.photographer,
+          textTheme,
+          colorScheme,
+        ),
+        SizedBox(height: 20),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 22),
+          child: Text(
+            'Overview',
+            style:
+            textTheme.titleMedium?.copyWith(color: colorScheme.primary),
+          ),
+        ),
+        Divider(thickness: 2, color: colorScheme.primary),
+        Text(
+          painting.alt.isEmpty ? BASE_OVERVIEW : painting.alt,
+          style: textTheme.bodyLarge
+              ?.copyWith(color: colorScheme.onSurfaceVariant),
+          textAlign: TextAlign.justify,
+        ),
+      ],
     );
   }
 
