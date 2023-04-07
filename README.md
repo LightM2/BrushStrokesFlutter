@@ -3,7 +3,11 @@
 
 BrushStrokes is a painting shop and auction platform that allows users to browse and bid on a wide range of artwork. The main page features a list of popular paintings and collections, and users can easily search for artwork from the home page. The app provides a user-friendly interface that allows users to browse through different collections, view painting details and add to a cart.
 
-<img width="567" alt="image" src="https://user-images.githubusercontent.com/36305684/224045554-cc7b4ef9-5bbe-4ab6-8d8c-bb199ce25ee8.png">
+<p float="center">
+  <img width="302" alt="image" src="https://user-images.githubusercontent.com/36305684/230679738-0c579f0f-2b9c-4b03-b643-76ec5bc39b64.png">
+  <img width="301" alt="image" src="https://user-images.githubusercontent.com/36305684/230679638-aac8e421-6b8b-4a5a-ad3d-e65d3cd786ce.png">
+  <img width="304" alt="image" src="https://user-images.githubusercontent.com/36305684/230679668-2d0afa97-cf76-4a47-bb6d-f29d576041af.png">
+</p>
 
 
 ## Getting Started
