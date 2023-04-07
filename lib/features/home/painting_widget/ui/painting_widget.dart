@@ -1,6 +1,7 @@
 // ignore_for_file: inference_failure_on_instance_creation
 
 import 'package:brush_strokes/const.dart';
+import 'package:brush_strokes/features/cart/bloc/cart_bloc.dart';
 import 'package:brush_strokes/features/home/painting_widget/bloc/painting_bloc.dart';
 import 'package:brush_strokes/models/photos/photo.dart';
 import 'package:brush_strokes/repositories/photo_repository.dart';
@@ -85,7 +86,10 @@ class PaintingWidget extends StatelessWidget {
                     painting,
                     Theme.of(context).textTheme,
                     Theme.of(context).colorScheme,
-                    () {},
+                    () {
+                      context.read<CartBloc>().add(
+                          AddPainting(painting));
+                    },
                   ),
                 ),
               ],
