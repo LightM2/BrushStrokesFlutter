@@ -1,5 +1,6 @@
 // ignore_for_file: inference_failure_on_function_invocation
 
+import 'package:brush_strokes/features/home/home_screen/best_collections/ui/best_collections_widget.dart';
 import 'package:brush_strokes/features/home/home_screen/home_header.dart';
 import 'package:brush_strokes/features/home/home_screen/hot_bids/bloc/hot_bids_bloc.dart';
 import 'package:brush_strokes/features/home/hot_bids_screen/hot_bids_screen.dart';

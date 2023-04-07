@@ -54,7 +54,7 @@ class PaintingWidget extends StatelessWidget {
               Navigator.pop(context);
             },
             () {
-              _paintingDialog(context, painting.src.original);
+              _paintingDialog(context, painting.src.large);
             },
           ),
         ),
@@ -69,14 +69,22 @@ class PaintingWidget extends StatelessWidget {
               borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
               color: Theme.of(context).colorScheme.background,
             ),
-            child: CustomScrollView(
-              slivers: [
-                _paintingInformation(
-                  painting,
-                  Theme.of(context).textTheme,
-                  Theme.of(context).colorScheme,
+            child: Column(
+              children: [
+                Expanded(
+                  flex: 7,
+                  child: CustomScrollView(
+                    slivers: [
+                      _paintingInformation(
+                        painting,
+                        Theme.of(context).textTheme,
+                        Theme.of(context).colorScheme,
+                      ),
+                    ],
+                  ),
                 ),
-                SliverToBoxAdapter(
+                Expanded(
+                  flex: 4,
                   child: _addToCartWidget(
                     painting,
                     Theme.of(context).textTheme,
@@ -111,7 +119,7 @@ class PaintingWidget extends StatelessWidget {
             ),
             SizedBox(height: 24),
             _paintingArtist(
-              painting.src.original,
+              painting.src.small,
               painting.photographer,
               textTheme,
               colorScheme,
@@ -307,7 +315,7 @@ class PaintingWidget extends StatelessWidget {
               ),
               Positioned(
                 right: 16,
-                top: 16,
+                top: 32,
                 child: _paintingIconButton(
                   Icons.close_fullscreen_rounded,
                   () {
