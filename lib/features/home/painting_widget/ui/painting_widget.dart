@@ -3,9 +3,9 @@
 import 'package:brush_strokes/const.dart';
 import 'package:brush_strokes/features/cart/bloc/cart_bloc.dart';
 import 'package:brush_strokes/features/home/painting_widget/bloc/painting_bloc.dart';
+import 'package:brush_strokes/features/home/painting_widget/ui/add_to_cart_button.dart';
 import 'package:brush_strokes/models/photos/photo.dart';
 import 'package:brush_strokes/repositories/photo_repository.dart';
-import 'package:brush_strokes/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -82,13 +82,11 @@ class PaintingWidget extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 4,
-                  child: _addToCartWidget(
+                  child: AddToCartButton(
                     painting,
-                    Theme.of(context).textTheme,
-                    Theme.of(context).colorScheme,
+                    context.read<CartBloc>().contains(painting.id),
                     () {
-                      context.read<CartBloc>().add(
-                          AddPainting(painting));
+                      context.read<CartBloc>().add(AddPainting(painting));
                     },
                   ),
                 ),
@@ -128,8 +126,7 @@ class PaintingWidget extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 22),
           child: Text(
             'Overview',
-            style:
-            textTheme.titleMedium?.copyWith(color: colorScheme.primary),
+            style: textTheme.titleMedium?.copyWith(color: colorScheme.primary),
           ),
         ),
         Divider(thickness: 2, color: colorScheme.primary),
@@ -176,53 +173,6 @@ class PaintingWidget extends StatelessWidget {
           ],
         ),
       ],
-    );
-  }
-
-  Widget _addToCartWidget(
-    Photo painting,
-    TextTheme textTheme,
-    ColorScheme colorScheme,
-    VoidCallback addToCart,
-  ) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          FilledButton(
-            onPressed: addToCart,
-            child: Text(
-              'Add to Cart',
-              style: textTheme.titleMedium
-                  ?.copyWith(color: colorScheme.onBackground),
-            ),
-            style: ButtonStyle(
-              padding: MaterialStateProperty.all(
-                EdgeInsets.symmetric(vertical: 12),
-              ),
-              shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              )),
-            ),
-          ),
-          SizedBox(height: 8),
-          RichText(
-            text: TextSpan(
-              text: 'Price: ',
-              style: textTheme.titleMedium,
-              children: [
-                TextSpan(
-                  text: '${(painting.id / 3000).round()}\$',
-                  style: textTheme.titleMedium?.copyWith(color: goldColor),
-                )
-              ],
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
     );
   }
 

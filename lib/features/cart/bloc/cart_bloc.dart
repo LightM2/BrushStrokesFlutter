@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'cart_event.dart';
+
 part 'cart_state.dart';
 
 class CartBloc extends HydratedBloc<CartEvent, CartState> {
   final CartRepository cartRepository;
 
-  CartBloc(this.cartRepository) : super(CartSuccessState(cartRepository.photos)) {
+  CartBloc(this.cartRepository)
+      : super(CartSuccessState(cartRepository.photos)) {
     on<AddPainting>((event, emit) async {
       emit(CartLoadingState());
       final updatedPaintingList = cartRepository.addPainting(event.painting);
@@ -28,7 +30,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
     try {
       final listOfPainting = (json['paintings'] as List)
           .map((e) => Photo.fromJson(e as Map<String, dynamic>))
-          .toSet();
+          .toList();
 
       cartRepository.photos = listOfPainting;
       return CartSuccessState(listOfPainting);
@@ -45,5 +47,9 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
       return null;
     }
   }
-
+  
+  bool contains(int id) {
+    List<Photo> paintings = cartRepository.photos;
+    return !paintings.any((element) => element.id == id);
+  }
 }

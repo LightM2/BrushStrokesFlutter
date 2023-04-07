@@ -7,16 +7,14 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CartBloc, CartState>(
-        builder: (context, state) {
-          if (state is CartSuccessState) {
-            return Container(
-              alignment: Alignment.center,
-              child: Text('Cart list - ${state.paintings.map((e) => e.avgColor)}'),
-            );
-          }
-          return Container();
-        }
-    );
+    return BlocBuilder<CartBloc, CartState>(builder: (context, state) {
+      if (state is CartSuccessState) {
+        return Container(
+          alignment: Alignment.center,
+          child: Text('Cart list - ${state.paintings.map((e) => e.avgColor)}'),
+        );
+      }
+      return Container();
+    });
   }
 }

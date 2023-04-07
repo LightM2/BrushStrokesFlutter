@@ -15,7 +15,7 @@ class AddPainting extends CartEvent {
 }
 
 class RemovePainting extends CartEvent {
-  final String id;
+  final int id;
 
   const RemovePainting(this.id);
 
