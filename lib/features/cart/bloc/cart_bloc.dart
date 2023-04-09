@@ -47,7 +47,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
       return null;
     }
   }
-  
+
   bool contains(int id) {
     List<Photo> paintings = cartRepository.photos;
     return !paintings.any((element) => element.id == id);
