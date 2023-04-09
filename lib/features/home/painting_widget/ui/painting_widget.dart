@@ -26,7 +26,11 @@ class PaintingWidget extends StatelessWidget {
   Widget _blocBody() {
     return BlocBuilder<PaintingBloc, PaintingState>(
       builder: (context, state) {
-        if (state is PaintingLoadingState) {}
+        if (state is PaintingLoadingState) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
         if (state is PaintingErrorState) {
           return Center(child: Text("Error - ${state.error}"));
         }
