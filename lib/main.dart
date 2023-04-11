@@ -1,7 +1,9 @@
 import 'package:brush_strokes/features/cart/bloc/cart_bloc.dart';
+import 'package:brush_strokes/features/notification/bloc/notification_bloc.dart';
 import 'package:brush_strokes/features/root/bloc/navigation_cubit.dart';
 import 'package:brush_strokes/features/root/ui/root_screen.dart';
 import 'package:brush_strokes/repositories/cart_repository.dart';
+import 'package:brush_strokes/repositories/notification_repository.dart';
 import 'package:brush_strokes/theme/colors.dart';
 import 'package:brush_strokes/theme/typography.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +34,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => CartBloc(
             RepositoryProvider.of<CartRepository>(context),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => NotificationBloc(
+            RepositoryProvider.of<NotificationsRepository>(context),
           ),
         ),
       ],
