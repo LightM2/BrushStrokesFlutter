@@ -11,6 +11,7 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CartBloc, CartState>(builder: (context, state) {
       if (state is CartSuccessState) {
+        List<Photo> paintings = state.paintings;
         return CustomScrollView(
           slivers: [
             SliverAppBar(
@@ -27,15 +28,19 @@ class CartScreen extends StatelessWidget {
             ),
             SliverList(
               delegate: SliverChildBuilderDelegate(
-                childCount: state.paintings.length,
+                childCount: paintings.length,
                 (context, index) => Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   child: _cartItem(
-                    state.paintings[index],
+                    paintings[index],
                     Theme.of(context).textTheme,
                     Theme.of(context).colorScheme,
-                    () {},
+                    () {
+                      context
+                          .read<CartBloc>()
+                          .add(RemovePainting(paintings[index].id));
+                    },
                   ),
                 ),
               ),
@@ -72,7 +77,7 @@ class CartScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(16),
             child: Image.network(
               painting.src.medium,
               fit: BoxFit.cover,

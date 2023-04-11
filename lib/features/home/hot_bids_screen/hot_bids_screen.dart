@@ -104,6 +104,7 @@ class HotBidsScreen extends StatelessWidget {
               const SizedBox(height: 4),
               SizedBox(
                 width: 170,
+                height: 24,
                 child: Text(
                   photo.photographer,
                   softWrap: true,
