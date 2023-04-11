@@ -16,8 +16,15 @@ Future<void> main() async {
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getTemporaryDirectory(),
   );
-  runApp(RepositoryProvider(
-    create: (context) => CartRepository(),
+  runApp(MultiRepositoryProvider(
+    providers: [
+      RepositoryProvider(
+        create: (context) => CartRepository(),
+      ),
+      RepositoryProvider(
+        create: (context) => NotificationsRepository(),
+      ),
+    ],
     child: const MyApp(),
   ));
 }

@@ -20,7 +20,7 @@ class NotificationInformation {
   String alt;
   String date;
   @JsonKey(name: 'is_unread')
-  String isUnread;
+  bool isUnread;
 
   Map<String, dynamic> toJson() => _$NotificationInformationToJson(this);
 }

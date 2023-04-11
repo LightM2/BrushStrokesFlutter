@@ -31,7 +31,7 @@ class NotificationBloc
   @override
   NotificationState? fromJson(Map<String, dynamic> json) {
     try {
-      final listOfNotification = (json['paintings'] as List)
+      final listOfNotification = (json['notifications'] as List)
           .map((e) =>
               NotificationInformation.fromJson(e as Map<String, dynamic>))
           .toList();
@@ -50,5 +50,11 @@ class NotificationBloc
     } else {
       return null;
     }
+  }
+
+  bool isAllRead() {
+    List<NotificationInformation> notifications =
+        notificationsRepository.notifications;
+    return notifications.every((element) => !element.isUnread);
   }
 }

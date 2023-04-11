@@ -4,7 +4,8 @@ class NotificationsRepository {
   List<NotificationInformation> notifications = [];
 
   List<NotificationInformation> addNotification(
-      NotificationInformation notification) {
+    NotificationInformation notification,
+  ) {
     if (!notifications.contains(notification)) {
       notifications.add(notification);
     }

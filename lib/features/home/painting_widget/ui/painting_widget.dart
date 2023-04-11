@@ -1,9 +1,12 @@
 // ignore_for_file: inference_failure_on_instance_creation
 
+import 'package:brush_strokes/common.dart';
 import 'package:brush_strokes/const.dart';
 import 'package:brush_strokes/features/cart/bloc/cart_bloc.dart';
 import 'package:brush_strokes/features/home/painting_widget/bloc/painting_bloc.dart';
 import 'package:brush_strokes/features/home/painting_widget/ui/add_to_cart_button.dart';
+import 'package:brush_strokes/features/notification/bloc/notification_bloc.dart';
+import 'package:brush_strokes/models/notification.dart';
 import 'package:brush_strokes/models/photos/photo.dart';
 import 'package:brush_strokes/repositories/photo_repository.dart';
 import 'package:flutter/material.dart';
@@ -91,6 +94,17 @@ class PaintingWidget extends StatelessWidget {
                     context.read<CartBloc>().contains(painting.id),
                     () {
                       context.read<CartBloc>().add(AddPainting(painting));
+                      NotificationInformation notification =
+                          NotificationInformation(
+                        painting.id,
+                        painting.photographer,
+                        painting.alt,
+                        currentTime(),
+                        true,
+                      );
+                      context
+                          .read<NotificationBloc>()
+                          .add(AddNotification(notification));
                     },
                   ),
                 ),
