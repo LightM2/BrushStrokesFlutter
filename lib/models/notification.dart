@@ -10,6 +10,7 @@ class NotificationInformation {
     this.alt,
     this.date,
     this.isUnread,
+    this.isAddToCart,
   );
 
   factory NotificationInformation.fromJson(Map<String, dynamic> json) =>
@@ -21,6 +22,19 @@ class NotificationInformation {
   String date;
   @JsonKey(name: 'is_unread')
   bool isUnread;
+  @JsonKey(name: 'is_add_to_cart')
+  bool isAddToCart;
 
   Map<String, dynamic> toJson() => _$NotificationInformationToJson(this);
+
+  NotificationInformation readNotification() {
+    return NotificationInformation(
+      id,
+      photographer,
+      alt,
+      date,
+      false,
+      isAddToCart,
+    );
+  }
 }

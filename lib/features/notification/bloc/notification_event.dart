@@ -14,6 +14,13 @@ class AddNotification extends NotificationEvent {
   List<Object> get props => [notification];
 }
 
+class ReadAllNotifications extends NotificationEvent {
+  const ReadAllNotifications();
+
+  @override
+  List<Object> get props => [];
+}
+
 class RemoveAllNotifications extends NotificationEvent {
   const RemoveAllNotifications();
 

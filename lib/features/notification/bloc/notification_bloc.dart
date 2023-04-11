@@ -23,7 +23,14 @@ class NotificationBloc
     });
     on<RemoveAllNotifications>((event, emit) {
       emit(NotificationsLoadingState());
-      final updatedNotificationsList = notificationsRepository.notifications;
+      final updatedNotificationsList =
+          notificationsRepository.removeAllNotifications();
+      emit(NotificationsSuccessState(updatedNotificationsList));
+    });
+    on<ReadAllNotifications>((event, emit) {
+      emit(NotificationsLoadingState());
+      final updatedNotificationsList =
+          notificationsRepository.readAllNotifications();
       emit(NotificationsSuccessState(updatedNotificationsList));
     });
   }
@@ -55,6 +62,6 @@ class NotificationBloc
   bool isAllRead() {
     List<NotificationInformation> notifications =
         notificationsRepository.notifications;
-    return notifications.every((element) => !element.isUnread);
+    return !notifications.any((element) => element.isUnread);
   }
 }

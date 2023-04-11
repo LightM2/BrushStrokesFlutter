@@ -1,4 +1,5 @@
 import 'package:brush_strokes/features/home/home_route.dart';
+import 'package:brush_strokes/features/notification/bloc/notification_bloc.dart';
 import 'package:brush_strokes/features/root/bloc/nav_bar_items.dart';
 import 'package:brush_strokes/features/root/bloc/navigation_cubit.dart';
 import 'package:brush_strokes/features/cart/ui/cart_screen.dart';
@@ -73,7 +74,7 @@ class _RootScreenState extends State<RootScreen> {
                 }
               },
               selectedIndex: state.index,
-              destinations: const <Widget>[
+              destinations: <Widget>[
                 NavigationDestination(
                   selectedIcon: Icon(Icons.home),
                   icon: Icon(Icons.home_outlined),
@@ -86,7 +87,8 @@ class _RootScreenState extends State<RootScreen> {
                 NavigationDestination(
                   selectedIcon: Icon(Icons.notifications),
                   icon: Badge(
-                    isLabelVisible: true,
+                    isLabelVisible:
+                        !context.read<NotificationBloc>().isAllRead(),
                     child: Icon(Icons.notifications_none),
                   ),
                   label: 'Notification',
@@ -105,6 +107,7 @@ class _RootScreenState extends State<RootScreen> {
                 } else if (state.navbarItem == NavbarItem.SEARCH) {
                   return SearchScreen();
                 } else if (state.navbarItem == NavbarItem.NOTIFICATION) {
+                  context.read<NotificationBloc>().add(ReadAllNotifications());
                   return NotificationScreen();
                 } else if (state.navbarItem == NavbarItem.CART) {
                   return CartScreen();

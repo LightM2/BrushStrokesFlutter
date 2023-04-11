@@ -101,6 +101,7 @@ class PaintingWidget extends StatelessWidget {
                         painting.alt,
                         currentTime(),
                         true,
+                        true,
                       );
                       context
                           .read<NotificationBloc>()

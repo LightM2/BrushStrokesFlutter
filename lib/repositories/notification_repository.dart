@@ -15,4 +15,10 @@ class NotificationsRepository {
   List<NotificationInformation> removeAllNotifications() {
     return notifications = [];
   }
+
+  List<NotificationInformation> readAllNotifications() {
+    List<NotificationInformation> readNotifications =
+        notifications.map((element) => element.readNotification()).toList();
+    return readNotifications;
+  }
 }

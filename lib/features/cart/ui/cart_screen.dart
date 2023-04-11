@@ -1,4 +1,7 @@
+import 'package:brush_strokes/common.dart';
 import 'package:brush_strokes/features/cart/bloc/cart_bloc.dart';
+import 'package:brush_strokes/features/notification/bloc/notification_bloc.dart';
+import 'package:brush_strokes/models/notification.dart';
 import 'package:brush_strokes/models/photos/photo.dart';
 import 'package:brush_strokes/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +43,18 @@ class CartScreen extends StatelessWidget {
                       context
                           .read<CartBloc>()
                           .add(RemovePainting(paintings[index].id));
+                      NotificationInformation notification =
+                          NotificationInformation(
+                        paintings[index].id,
+                        paintings[index].photographer,
+                        paintings[index].alt,
+                        currentTime(),
+                        true,
+                        false,
+                      );
+                      context
+                          .read<NotificationBloc>()
+                          .add(AddNotification(notification));
                     },
                   ),
                 ),
