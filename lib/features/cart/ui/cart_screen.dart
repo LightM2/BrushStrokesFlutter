@@ -108,9 +108,9 @@ class CartScreen extends StatelessWidget {
   }
 
   Widget _cartItemDescription(
-      Photo painting,
-      TextTheme textTheme,
-      ColorScheme colorScheme,
+    Photo painting,
+    TextTheme textTheme,
+    ColorScheme colorScheme,
   ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
