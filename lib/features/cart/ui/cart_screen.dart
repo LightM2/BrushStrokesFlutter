@@ -101,40 +101,48 @@ class CartScreen extends StatelessWidget {
             ),
           ),
           SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                painting.photographer,
-                style: textTheme.bodyMedium
-                    ?.copyWith(color: colorScheme.onSurfaceVariant),
-              ),
-              SizedBox(height: 4),
-              if (painting.alt.isNotEmpty)
-                SizedBox(
-                  width: 260,
-                  child: Text(
-                    painting.alt,
-                    style: textTheme.bodyMedium,
-                  ),
-                ),
-              RichText(
-                text: TextSpan(
-                  text: 'Price: ',
-                  style: textTheme.titleMedium,
-                  children: [
-                    TextSpan(
-                      text: '${(painting.id / 3000).round()}\$',
-                      style: textTheme.titleMedium?.copyWith(color: goldColor),
-                    )
-                  ],
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
+          _cartItemDescription(painting, textTheme, colorScheme),
         ],
       ),
+    );
+  }
+
+  Widget _cartItemDescription(
+      Photo painting,
+      TextTheme textTheme,
+      ColorScheme colorScheme,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          painting.photographer,
+          style: textTheme.bodyMedium
+              ?.copyWith(color: colorScheme.onSurfaceVariant),
+        ),
+        SizedBox(height: 4),
+        if (painting.alt.isNotEmpty)
+          SizedBox(
+            width: 260,
+            child: Text(
+              painting.alt,
+              style: textTheme.bodyMedium,
+            ),
+          ),
+        RichText(
+          text: TextSpan(
+            text: 'Price: ',
+            style: textTheme.titleMedium,
+            children: [
+              TextSpan(
+                text: '${(painting.id / 3000).round()}\$',
+                style: textTheme.titleMedium?.copyWith(color: goldColor),
+              )
+            ],
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ],
     );
   }
 }
