@@ -35,8 +35,9 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
       cartRepository.photos = listOfPainting;
       return CartSuccessState(listOfPainting);
     } catch (e) {
-      return null;
+      CartErrorState(e.toString());
     }
+    return null;
   }
 
   @override

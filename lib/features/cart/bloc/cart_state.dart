@@ -20,3 +20,12 @@ class CartSuccessState extends CartState {
     return {'paintings': paintings};
   }
 }
+
+class CartErrorState extends CartState {
+  final String error;
+
+  CartErrorState(this.error);
+
+  @override
+  List<Object?> get props => [error];
+}
