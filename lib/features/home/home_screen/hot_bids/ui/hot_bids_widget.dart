@@ -1,6 +1,9 @@
+// ignore_for_file: inference_failure_on_function_invocation
+
 import 'package:brush_strokes/features/home/home_screen/home_header.dart';
 import 'package:brush_strokes/features/home/home_screen/hot_bids/bloc/hot_bids_bloc.dart';
 import 'package:brush_strokes/features/home/hot_bids_screen/hot_bids_screen.dart';
+import 'package:brush_strokes/features/home/painting_widget/ui/painting_widget.dart';
 import 'package:brush_strokes/models/photos/photo.dart';
 import 'package:brush_strokes/repositories/curated_photos_repository.dart';
 import 'package:brush_strokes/theme/colors.dart';
@@ -69,7 +72,15 @@ class HotBidsWidget extends StatelessWidget {
                       curatedPhotos[index],
                       Theme.of(context).textTheme,
                       Theme.of(context).colorScheme,
-                      () {}, // todo open photo bottom sheets
+                      () => showModalBottomSheet(
+                        useSafeArea: true,
+                        isScrollControlled: true,
+                        //useRootNavigator: true,
+                        context: context,
+                        builder: (modal) {
+                          return PaintingWidget(curatedPhotos[index].id);
+                        },
+                      ),
                     );
                   },
                 ),
